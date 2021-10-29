@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import LoginScreen from "./../screens/LoginScreen";
+import LoginScreen2 from "./../screens/LoginScreen2";
 import OnboardingScreen from "./../screens/OnboardingScreen";
 import SignupScreen from "./../screens/SignupScreen";
 
@@ -47,7 +47,7 @@ const AuthStack = () => {
       />
       <Stack.Screen
         name="Login"
-        component={LoginScreen}
+        component={LoginScreen2}
         options={{ header: () => null }}
       />
       <Stack.Screen

@@ -14,7 +14,7 @@ const FormInput = ({ labelValue, placeholderText, iconType, ...rest }) => {
   };
 
   useEffect(() => {
-    if (placeholderText != "Email") {
+    if (iconType == "lock") {
       setIsPass(true);
     }
   });
@@ -56,12 +56,11 @@ export default FormInput;
 
 const styles = StyleSheet.create({
   inputContainer: {
-    marginTop: 5,
     marginBottom: 10,
     width: "100%",
     height: windowHeight / 15,
     borderColor: "#ccc",
-    borderRadius: 3,
+    borderRadius: 10,
     borderWidth: 1,
     flexDirection: "row",
     alignItems: "center",
