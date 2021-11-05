@@ -9,6 +9,7 @@ import SignupScreen2 from "./../screens/SignupScreen2";
 import SignupScreen from "./../screens/SignupScreen";
 import AdminScreen from "./../screens/AdminScreen";
 import AdminLogScreen1 from "./../screens/AdminLogScreen1";
+import AdminLogScreen2 from "./../screens/AdminLogScreen2";
 
 const Stack = createStackNavigator();
 
@@ -52,7 +53,7 @@ const AuthStack = () => {
       <Stack.Screen
         name="Login"
         // component={LoginScreen2}
-        component={AdminLogScreen1}
+        component={AdminLogScreen2}
         options={{ header: () => null }}
       />
       <Stack.Screen
