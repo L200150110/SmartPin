@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoginScreen2 from "./../screens/LoginScreen2";
 import LoginScreen from "./../screens/LoginScreen";
 import OnboardingScreen from "./../screens/OnboardingScreen";
-import SignupScreen2 from "./../screens/SignupScreen2";
+import AdminRegister from "./../screens/AdminRegister";
 import SignupScreen from "./../screens/SignupScreen";
 import AdminScreen from "./../screens/AdminScreen";
 import AdminLogScreen1 from "./../screens/AdminLogScreen1";
@@ -55,7 +55,7 @@ const AuthStack = () => {
       <Stack.Screen
         name="Login"
         // component={LoginScreen2}
-        component={AdminUserListScreen}
+        component={AdminRegister}
         options={{ header: () => null }}
       />
       <Stack.Screen

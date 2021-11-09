@@ -16,7 +16,7 @@ import { AuthContext } from "./../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
 import validator from "validator";
 
-const SignupScreen2 = () => {
+const AdminRegister = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
@@ -84,6 +84,28 @@ const SignupScreen2 = () => {
             labelValue={email}
             onChangeText={userEmail => setEmail(userEmail)}
             placeholderText="No Handphone"
+            iconType="phone"
+            keyboardType="email-address"
+            caretHidden={false}
+            autoCapitalize="none"
+            autoCorrect={false}
+            onEndEditing={e => handleValidUser(e.nativeEvent.text)}
+            onFocus={() => setData({ ...data, isValidUser: true })}
+          />
+          {/* <View style={{ height: 30 }}>
+            {data.isValidUser
+              ? null
+              : <Animatable.View animation="fadeInLeft" duration={500}>
+                  <Text style={styles.errorMessage}>
+                    Nomor Handphone tidak valid.
+                  </Text>
+                </Animatable.View>}
+          </View> */}
+
+          <FormInput
+            labelValue={email}
+            onChangeText={userEmail => setEmail(userEmail)}
+            placeholderText="Nama"
             iconType="user"
             keyboardType="email-address"
             caretHidden={false}
@@ -92,15 +114,29 @@ const SignupScreen2 = () => {
             onEndEditing={e => handleValidUser(e.nativeEvent.text)}
             onFocus={() => setData({ ...data, isValidUser: true })}
           />
-          <View style={{ height: 30 }}>
-            {data.isValidUser
+
+          {/* <View style={{ height: 30 }}> */}
+            {/* {data.isValidUser
               ? null
               : <Animatable.View animation="fadeInLeft" duration={500}>
                   <Text style={styles.errorMessage}>
                     Nomor Handphone tidak valid.
                   </Text>
-                </Animatable.View>}
-          </View>
+                </Animatable.View>} */}
+          {/* </View> */}
+
+          <FormInput
+            labelValue={email}
+            onChangeText={userEmail => setEmail(userEmail)}
+            placeholderText="No Kamar"
+            iconType="book"
+            keyboardType="email-address"
+            caretHidden={false}
+            autoCapitalize="none"
+            autoCorrect={false}
+            onEndEditing={e => handleValidUser(e.nativeEvent.text)}
+            onFocus={() => setData({ ...data, isValidUser: true })}
+          />
 
           <FormInput
             labelValue={password}
@@ -112,7 +148,7 @@ const SignupScreen2 = () => {
             onEndEditing={e => handleValidPassword(e.nativeEvent.text)}
             onFocus={() => setData({ ...data, isValidPassword: true })}
           />
-          <View style={{ height: 30 }}>
+          {/* <View style={{ height: 30 }}>
             {data.isValidPassword
               ? null
               : <Animatable.View animation="fadeInLeft" duration={500}>
@@ -120,20 +156,13 @@ const SignupScreen2 = () => {
                     Password harus lebih dari 8 karakter.
                   </Text>
                 </Animatable.View>}
-          </View>
+          </View> */}
 
           <FormButton
             buttonTitle="Masuk"
             onPress={() => login(email, password)}
             blurOnpress={true}
           />
-
-          <TouchableOpacity
-            style={styles.forgotButton}
-            onPress={() => navigation.navigate("Signup")}
-          >
-            <Text style={styles.navButtonText}>Lupa Password?</Text>
-          </TouchableOpacity>
         </View>
         <Image
           source={require("./../assets/img/ums.png")}
@@ -144,7 +173,7 @@ const SignupScreen2 = () => {
   );
 };
 
-export default SignupScreen2;
+export default AdminRegister;
 
 const styles = StyleSheet.create({
   container: {
