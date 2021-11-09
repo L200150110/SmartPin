@@ -10,6 +10,8 @@ import SignupScreen from "./../screens/SignupScreen";
 import AdminScreen from "./../screens/AdminScreen";
 import AdminLogScreen1 from "./../screens/AdminLogScreen1";
 import AdminLogScreen2 from "./../screens/AdminLogScreen2";
+import AdminUserListScreen from "./../screens/AdminUserListScreen";
+import AdminRegisterScreen from "./../screens/AdminRegisterScreen";
 
 const Stack = createStackNavigator();
 
@@ -53,7 +55,7 @@ const AuthStack = () => {
       <Stack.Screen
         name="Login"
         // component={LoginScreen2}
-        component={AdminLogScreen2}
+        component={AdminUserListScreen}
         options={{ header: () => null }}
       />
       <Stack.Screen
@@ -63,9 +65,9 @@ const AuthStack = () => {
           title: "",
           headerShadowVisible: false,
           headerStyle: {
-            backgroundColor: '#f9fafd',
-            shadowColor: '#f9fafd',
-            elevation: 0,
+            backgroundColor: "#f9fafd",
+            shadowColor: "#f9fafd",
+            elevation: 0
           }
         })}
       />

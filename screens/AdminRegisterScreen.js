@@ -14,7 +14,7 @@ import { AuthContext } from "./../navigation/AuthProvider";
 import validator from "validator";
 import * as Animatable from "react-native-animatable";
 
-const SignupScreen = ({ navigation }) => {
+const AdminRegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
@@ -77,7 +77,7 @@ const SignupScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Create an Account</Text>
+      <Text style={styles.text}>Add User</Text>
 
       <FormInput
         labelValue={email}
@@ -133,49 +133,11 @@ const SignupScreen = ({ navigation }) => {
         // onPress={() => register(email, password)}
         onPress={() => onRegisterPressed()}
       />
-
-      <View style={styles.textPrivate}>
-        <Text style={styles.color_textPrivate}>
-          By registering, you confirm that you accept our{" "}
-        </Text>
-        <TouchableOpacity onPress={() => alert("Term of service")}>
-          <Text style={[styles.color_textPrivate, { color: "#e88832" }]}>
-            Term of service{" "}
-          </Text>
-        </TouchableOpacity>
-        <Text style={styles.color_textPrivate}>and </Text>
-        <TouchableOpacity onPress={() => alert("Privacy policy")}>
-          <Text style={[styles.color_textPrivate, { color: "#e88832" }]}>
-            Privacy policy
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <SocialButton
-        buttonTitle="Sign Up with Facebook"
-        btnType="facebook"
-        color="#4867aa"
-        backgroundColor="#e6eaf4"
-        onPress={() => {}}
-      />
-      <SocialButton
-        buttonTitle="Sign Up with Google"
-        btnType="google"
-        color="#de4d41"
-        backgroundColor="#f5e7ea"
-        onPress={() => {}}
-      />
-      <TouchableOpacity
-        style={styles.navButton}
-        onPress={() => navigation.navigate("Login")}
-      >
-        <Text style={styles.navButtonText}>Have an account? Sign In</Text>
-      </TouchableOpacity>
     </View>
   );
 };
 
-export default SignupScreen;
+export default AdminRegisterScreen;
 
 const styles = StyleSheet.create({
   container: {
