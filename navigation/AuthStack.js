@@ -15,6 +15,7 @@ import AdminRegisterScreen from "./../screens/AdminRegisterScreen";
 import UserIndexScreen from "./../screens/UserIndexScreen";
 import UserLogScreen1 from "./../screens/UserLogScreen1";
 import UserLogScreen2 from "./../screens/UserLogScreen2";
+import AdminUserInfoScreen from "./../screens/AdminUserInfoScreen";
 
 const Stack = createStackNavigator();
 
@@ -58,7 +59,7 @@ const AuthStack = () => {
       <Stack.Screen
         name="Login"
         // component={LoginScreen2}
-        component={UserLogScreen2}
+        component={AdminUserInfoScreen}
         options={{ header: () => null }}
       />
       <Stack.Screen
