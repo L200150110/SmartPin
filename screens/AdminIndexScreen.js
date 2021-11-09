@@ -13,7 +13,7 @@ import FormButton from "./../components/FormButton";
 import { AuthContext } from "./../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
 
-const AdminScreen = () => {
+const AdminIndexScreen = () => {
   return (
     <View>
       <StatusBar translucent backgroundColor="transparent" />
@@ -52,7 +52,7 @@ const AdminScreen = () => {
   );
 };
 
-export default AdminScreen;
+export default AdminIndexScreen;
 
 const styles = StyleSheet.create({
   container: {

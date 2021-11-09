@@ -43,6 +43,7 @@ const FormDropDown = ({ labelValue, placeholderText, iconType, ...rest }) => {
         ? <Picker
             style={styles.input}
             selectedValue={pickerValue}
+            enabled={false}
             onValueChange={itemValue => setPickerValue(itemValue)}
           >
             <Picker.Item label="JavaScript" value="JavaScript" />
