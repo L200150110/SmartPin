@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState, useContext } from "react";
 import LinearGradient from "react-native-linear-gradient";
-import { windowWidth, windowHeight } from "./../utils/Dimentions";
+import { windowWidth, windowHeight } from "./../../utils/Dimentions";
 import {
   View,
   Text,
@@ -10,19 +10,17 @@ import {
   StatusBar,
   Modal
 } from "react-native";
-import FormInput from "./../components/FormInput";
-import FormButton from "./../components/FormButton";
-import SocialButton from "./../components/SocialButton";
-import { AuthContext } from "./../navigation/AuthProvider";
+import FormInput from "./../../components/FormInput";
+import FormButton from "./../../components/FormButton";
+import { AuthContext } from "./../../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
 import validator from "validator";
-import FormDropDown from "./../components/FormDropDown";
+import FormDropDown from "./../../components/FormDropDown";
 // import { Picker } from "@react-native-picker/picker";
 
 const UserLogScreen1 = () => {
   const [chooseData, setChooseData] = useState("Select Item...");
   const [isModalVisible, setIsModalVisible] = useState(false);
-  
 
   const changeModalVisibility = bool => {
     setIsModalVisible(bool);
@@ -35,7 +33,7 @@ const UserLogScreen1 = () => {
         style={[styles.centerAlign, styles.container]}
       >
         <Image
-          source={require("./../assets/img/logo3-02.png")}
+          source={require("./../../assets/img/logo3-02.png")}
           style={styles.logo}
         />
       </LinearGradient>
@@ -50,7 +48,6 @@ const UserLogScreen1 = () => {
         ]}
       >
         <View style={[styles.inputContainer, styles.centerAlign]}>
-
           <FormDropDown iconType="user" />
 
           <View style={{ height: 30 }}>
@@ -135,6 +132,5 @@ const styles = StyleSheet.create({
   dropDownText: {
     marginVertical: 20,
     fontSize: 14
-  },
-  
+  }
 });

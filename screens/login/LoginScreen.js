@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState, useContext } from "react";
 import LinearGradient from "react-native-linear-gradient";
-import { windowWidth, windowHeight } from "./../utils/Dimentions";
+import { windowWidth, windowHeight } from "./../../utils/Dimentions";
 import {
   View,
   Text,
@@ -9,15 +9,15 @@ import {
   StyleSheet,
   StatusBar
 } from "react-native";
-import FormInput from "./../components/FormInput";
-import FormButton from "./../components/FormButton";
-import SocialButton from "./../components/SocialButton";
-import { AuthContext } from "./../navigation/AuthProvider";
+import FormInput from "./../../components/FormInput";
+import FormButton from "./../../components/FormButton";
+import { AuthContext } from "./../../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
 import validator from "validator";
+import database from "@react-native-firebase/database";
 
-const LoginScreen2 = () => {
-  const [email, setEmail] = useState();
+const LoginScreen = () => {
+  const [nohp, setNohp] = useState();
   const [password, setPassword] = useState();
 
   const [data, setData] = useState({
@@ -31,7 +31,7 @@ const LoginScreen2 = () => {
 
   const handleValidUser = val => {
     // console.log(val);
-    if (validator.isEmail(val)) {
+    if (validator.isNumeric(val)) {
       setData({
         ...data,
         isValidUser: true
@@ -57,6 +57,11 @@ const LoginScreen2 = () => {
       });
     }
   };
+
+  const handleMasukButton = () => {
+    pass;
+  };
+
   return (
     <View>
       <StatusBar translucent backgroundColor="transparent" />
@@ -81,11 +86,12 @@ const LoginScreen2 = () => {
       >
         <View style={[styles.inputContainer, styles.centerAlign]}>
           <FormInput
-            labelValue={email}
-            onChangeText={userEmail => setEmail(userEmail)}
+            labelValue={nohp}
+            onChangeText={userNohp => setNohp(userNohp)}
             placeholderText="No Handphone"
-            iconType="user"
-            keyboardType="email-address"
+            iconType="phone"
+            // keyboardType="email-address"
+            secureTextEntry={false}
             caretHidden={false}
             autoCapitalize="none"
             autoCorrect={false}
@@ -144,7 +150,7 @@ const LoginScreen2 = () => {
   );
 };
 
-export default LoginScreen2;
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -166,15 +172,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: windowWidth / 1.2,
     height: windowHeight / 2.1,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5
-    },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-
-    elevation: 10
+    elevation: 5
   },
   errorMessage: {
     fontSize: 14,

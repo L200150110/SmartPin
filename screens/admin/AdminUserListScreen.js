@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState, useContext } from "react";
 import LinearGradient from "react-native-linear-gradient";
-import { windowWidth, windowHeight } from "./../utils/Dimentions";
+import { windowWidth, windowHeight } from "./../../utils/Dimentions";
 import {
   View,
   Text,
@@ -10,20 +10,20 @@ import {
   StatusBar,
   FlatList
 } from "react-native";
-import FormButton from "./../components/FormButton";
-import { AuthContext } from "./../navigation/AuthProvider";
+import FormButton from "./../../components/FormButton";
+import { AuthContext } from "./../../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
 import faker from "faker";
 
-const UserLogScreen2 = () => {
-  faker.seed(2);
+const AdminUserListScreen = () => {
+  faker.seed(20);
   const DATA = [...Array(10).keys()].map((_, i) => {
     return {
       key: faker.datatype.uuid(),
       image: `https://randomuser.me/api/portraits/${faker.helpers.randomize([
         "women",
         " men"
-      ])}/${faker.datatype.number(60)}.jpg`,
+      ])}/${faker.datatype.number(100)}.jpg`,
       name: faker.name.findName(),
       jobTitle: faker.name.jobTitle(),
       email: faker.internet.email()
@@ -38,7 +38,7 @@ const UserLogScreen2 = () => {
       <StatusBar translucent backgroundColor="transparent" />
       <LinearGradient colors={["#ff00cc", "#333399"]} style={styles.container}>
         <Image
-          source={require("./../assets/img/logo3-02.png")}
+          source={require("./../../assets/img/logo3-02.png")}
           style={[styles.logo]}
         />
         {/* <Text style={{color : 'white', marginTop: 50,}}>LOG</Text> */}
@@ -62,7 +62,7 @@ const UserLogScreen2 = () => {
             renderItem={({ item, index }) => {
               return (
                 <View>
-                  <View
+                  <TouchableOpacity
                     style={{
                       flexDirection: "row",
                       marginVertical: SPACING / 2,
@@ -83,10 +83,19 @@ const UserLogScreen2 = () => {
                       }}
                     />
                     <View style={{ justifyContent: "center" }}>
-                      <Text style={{ fontSize: 22, fontWeight: "700" }}>
+                      <Text
+                        style={{
+                          fontSize: 22,
+                          fontWeight: "700",
+                          opacity: 0.7,
+                          color: "black"
+                        }}
+                      >
                         {item.name}
                       </Text>
-                      <Text style={{ fontSize: 16, opacity: 0.7 }}>
+                      <Text
+                        style={{ fontSize: 16, opacity: 0.5, color: "black" }}
+                      >
                         {item.jobTitle}
                       </Text>
                       <Text
@@ -95,7 +104,7 @@ const UserLogScreen2 = () => {
                         {item.email}
                       </Text>
                     </View>
-                  </View>
+                  </TouchableOpacity>
                   <View
                     style={{
                       borderColor: "#bbb",
@@ -110,11 +119,19 @@ const UserLogScreen2 = () => {
           />
         </View>
       </View>
+      <TouchableOpacity>
+        <LinearGradient
+          colors={["#ff00cc", "#333399"]}
+          style={[styles.floatingButton, styles.centerAlign]}
+        >
+          <Text style={styles.floatingButtonText}>+</Text>
+        </LinearGradient>
+      </TouchableOpacity>
     </View>
   );
 };
 
-export default UserLogScreen2;
+export default AdminUserListScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -135,10 +152,10 @@ const styles = StyleSheet.create({
   inputContainer: {
     backgroundColor: "rgba(255,255,255,1)",
     padding: 20,
-    marginTop: -180,
+    marginTop: -230,
     borderRadius: 20,
     width: windowWidth / 1.2,
-    height: windowHeight / 1.1,
+    height: windowHeight / 1.15,
     elevation: 5
   },
   errorMessage: {
@@ -154,5 +171,19 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "#2e64e5",
     fontFamily: "Lato-Regular"
+  },
+  floatingButton: {
+    position: "absolute",
+    height: 60,
+    width: 60,
+    backgroundColor: "#ee6e73",
+    borderRadius: 30,
+    bottom: 190,
+    right: 50,
+    elevation: 3
+  },
+  floatingButtonText: {
+    fontSize: 30,
+    color: "#fff"
   }
 });

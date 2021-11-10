@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState, useContext } from "react";
 import LinearGradient from "react-native-linear-gradient";
-import { windowWidth, windowHeight } from "./../utils/Dimentions";
+import { windowWidth, windowHeight } from "./../../utils/Dimentions";
 import {
   View,
   Text,
@@ -9,8 +9,8 @@ import {
   StyleSheet,
   StatusBar
 } from "react-native";
-import FormButton from "./../components/FormButton";
-import { AuthContext } from "./../navigation/AuthProvider";
+import FormButton from "./../../components/FormButton";
+import { AuthContext } from "./../../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
 
 const UserIndexScreen = () => {
@@ -19,7 +19,7 @@ const UserIndexScreen = () => {
       <StatusBar translucent backgroundColor="transparent" />
       <LinearGradient colors={["#ff00cc", "#333399"]} style={styles.container}>
         <Image
-          source={require("./../assets/img/logo3-02.png")}
+          source={require("./../..assets/img/logo3-02.png")}
           style={styles.logo}
         />
       </LinearGradient>
@@ -34,7 +34,7 @@ const UserIndexScreen = () => {
         ]}
       >
         <View style={[styles.inputContainer, styles.centerAlign]}>
-          <Image source={require("./../assets/img/pintu-01.png")} />
+          <Image source={require("./../..assets/img/pintu-01.png")} />
           <View style={{ width: "100%", padding: 20 }}>
             <FormButton buttonTitle="Buka" />
           </View>

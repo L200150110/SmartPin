@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState, useContext } from "react";
 import LinearGradient from "react-native-linear-gradient";
-import { windowWidth, windowHeight } from "./../utils/Dimentions";
+import { windowWidth, windowHeight } from "./../../utils/Dimentions";
 import {
   View,
   Text,
@@ -10,8 +10,8 @@ import {
   StatusBar,
   FlatList
 } from "react-native";
-import FormButton from "./../components/FormButton";
-import { AuthContext } from "./../navigation/AuthProvider";
+import FormButton from "./../../components/FormButton";
+import { AuthContext } from "./../../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
 import faker from "faker";
 
@@ -38,7 +38,7 @@ const AdminLogScreen2 = () => {
       <StatusBar translucent backgroundColor="transparent" />
       <LinearGradient colors={["#ff00cc", "#333399"]} style={styles.container}>
         <Image
-          source={require("./../assets/img/logo3-02.png")}
+          source={require("./../../assets/img/logo3-02.png")}
           style={[styles.logo]}
         />
         {/* <Text style={{color : 'white', marginTop: 50,}}>LOG</Text> */}

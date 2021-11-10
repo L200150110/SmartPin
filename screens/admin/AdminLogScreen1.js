@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState, useContext } from "react";
 import LinearGradient from "react-native-linear-gradient";
-import { windowWidth, windowHeight } from "./../utils/Dimentions";
+import { windowWidth, windowHeight } from "./../../utils/Dimentions";
 import {
   View,
   Text,
@@ -10,16 +10,15 @@ import {
   StatusBar,
   Modal
 } from "react-native";
-import FormInput from "./../components/FormInput";
-import FormButton from "./../components/FormButton";
-import SocialButton from "./../components/SocialButton";
-import { AuthContext } from "./../navigation/AuthProvider";
+import FormInput from "./../../components/FormInput";
+import FormButton from "./../../components/FormButton";
+import { AuthContext } from "./../../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
 import validator from "validator";
-import FormDropDown from "./../components/FormDropDown";
+import FormDropDown from "./../../components/FormDropDown";
 // import { Picker } from "@react-native-picker/picker";
 
-const AdminUserInfoScreen = () => {
+const AdminLogScreen1 = () => {
   const [chooseData, setChooseData] = useState("Select Item...");
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -34,7 +33,7 @@ const AdminUserInfoScreen = () => {
         style={[styles.centerAlign, styles.container]}
       >
         <Image
-          source={require("./../assets/img/logo3-02.png")}
+          source={require("./../../assets/img/logo3-02.png")}
           style={styles.logo}
         />
       </LinearGradient>
@@ -49,39 +48,32 @@ const AdminUserInfoScreen = () => {
         ]}
       >
         <View style={[styles.inputContainer, styles.centerAlign]}>
-          <FormInput
-            // labelValue={email}
-            // onChangeText={userEmail => setEmail(userEmail)}
-            placeholderText="Nama"
-            iconType="user"
-            
-          />
+          <FormDropDown iconType="user" />
 
-          <FormInput
-            // labelValue={email}
-            // onChangeText={userEmail => setEmail(userEmail)}
-            placeholderText="No Telpon"
-            iconType="phone"
-            
-          />
+          <View style={{ height: 30 }}>
+            {/* {data.isValidUser
+              ? null
+              : <Animatable.View animation="fadeInLeft" duration={500}>
+                  <Text style={styles.errorMessage}>
+                    Nomor Handphone tidak valid.
+                  </Text>
+                </Animatable.View>} */}
+          </View>
 
-          <FormInput
-            // labelValue={email}
-            // onChangeText={userEmail => setEmail(userEmail)}
-            placeholderText="No Kamar"
-            iconType="book"
-            
-          />
-          <FormInput
-            // labelValue={email}
-            // onChangeText={userEmail => setEmail(userEmail)}
-            placeholderText="Password"
-            iconType="lock"
-            
-          />
+          <FormDropDown iconType="calendar" />
+
+          <View style={{ height: 30 }}>
+            {/* {data.isValidPassword
+              ? null
+              : <Animatable.View animation="fadeInLeft" duration={500}>
+                  <Text style={styles.errorMessage}>
+                    Password harus lebih dari 8 karakter.
+                  </Text>
+                </Animatable.View>} */}
+          </View>
 
           <FormButton
-            buttonTitle="Edit"
+            buttonTitle="Masuk"
             // onPress={() => login(email, password)}
             blurOnpress={true}
           />
@@ -95,7 +87,7 @@ const AdminUserInfoScreen = () => {
   );
 };
 
-export default AdminUserInfoScreen;
+export default AdminLogScreen1;
 
 const styles = StyleSheet.create({
   container: {
@@ -117,7 +109,15 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: windowWidth / 1.2,
     height: windowHeight / 2.1,
-    elevation: 5
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    elevation: 10
   },
   errorMessage: {
     fontSize: 14,

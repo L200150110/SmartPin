@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState, useContext } from "react";
 import LinearGradient from "react-native-linear-gradient";
-import { windowWidth, windowHeight } from "./../utils/Dimentions";
+import { windowWidth, windowHeight } from "./../../utils/Dimentions";
 import {
   View,
   Text,
@@ -9,10 +9,10 @@ import {
   StyleSheet,
   StatusBar
 } from "react-native";
-import FormInput from "./../components/FormInput";
-import FormButton from "./../components/FormButton";
-import SocialButton from "./../components/SocialButton";
-import { AuthContext } from "./../navigation/AuthProvider";
+import FormInput from "./../../components/FormInput";
+import FormButton from "./../../components/FormButton";
+import SocialButton from "./../../components/SocialButton";
+import { AuthContext } from "./../../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
 import validator from "validator";
 
@@ -65,7 +65,7 @@ const AdminRegister = () => {
         style={[styles.centerAlign, styles.container]}
       >
         <Image
-          source={require("./../assets/img/logo3-02.png")}
+          source={require("./../../assets/img/logo3-02.png")}
           style={styles.logo}
         />
       </LinearGradient>
@@ -116,7 +116,7 @@ const AdminRegister = () => {
           />
 
           {/* <View style={{ height: 30 }}> */}
-            {/* {data.isValidUser
+          {/* {data.isValidUser
               ? null
               : <Animatable.View animation="fadeInLeft" duration={500}>
                   <Text style={styles.errorMessage}>
