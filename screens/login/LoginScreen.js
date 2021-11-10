@@ -14,7 +14,7 @@ import FormButton from "./../../components/FormButton";
 import { AuthContext } from "./../../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
 import validator from "validator";
-import database from "@react-native-firebase/database";
+import { database } from "./../../components/database";
 
 const LoginScreen = () => {
   const [nohp, setNohp] = useState();
@@ -60,6 +60,16 @@ const LoginScreen = () => {
 
   const handleMasukButton = () => {
     pass;
+  };
+
+  const testDatabase = () => {
+    database
+      .ref("/users/125")
+      .set({
+        name: "Ada Lovelace",
+        age: 31
+      })
+      .then(() => console.log("Data set."));
   };
 
   return (
@@ -130,7 +140,8 @@ const LoginScreen = () => {
 
           <FormButton
             buttonTitle="Masuk"
-            onPress={() => login(email, password)}
+            // onPress={() => login(email, password)}
+            onPress={() => testDatabase()}
             blurOnpress={true}
           />
 
