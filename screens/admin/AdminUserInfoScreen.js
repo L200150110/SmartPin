@@ -82,7 +82,7 @@ const AdminUserInfoScreen = () => {
           />
         </View>
         <Image
-          source={require("./../assets/img/ums.png")}
+          source={require("./../../assets/img/ums.png")}
           style={{ height: 100, width: 100, marginTop: 50 }}
         />
       </View>

@@ -57,11 +57,10 @@ const AuthStack = () => {
       />
       <Stack.Screen
         name="Login"
-        component={LoginScreen2}
-        // component={AdminUserInfoScreen}
+        component={LoginScreen}
         options={{ header: () => null }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Signup"
         component={SignupScreen}
         options={({ navigation }) => ({
@@ -73,7 +72,7 @@ const AuthStack = () => {
             elevation: 0
           }
         })}
-      />
+      /> */}
     </Stack.Navigator>
   );
 };

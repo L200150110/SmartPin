@@ -70,7 +70,7 @@ const LoginScreen = () => {
         style={[styles.centerAlign, styles.container]}
       >
         <Image
-          source={require("./../assets/img/logo3-02.png")}
+          source={require("./../../assets/img/logo3-02.png")}
           style={styles.logo}
         />
       </LinearGradient>
@@ -142,7 +142,7 @@ const LoginScreen = () => {
           </TouchableOpacity>
         </View>
         <Image
-          source={require("./../assets/img/ums.png")}
+          source={require("./../../assets/img/ums.png")}
           style={{ height: 100, width: 100, marginTop: 50 }}
         />
       </View>
