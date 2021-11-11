@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
-  StatusBar
+  StatusBar,
+  Keyboard
 } from "react-native";
 import FormInput from "./../../components/FormInput";
 import FormButton from "./../../components/FormButton";
@@ -24,7 +25,8 @@ const LoginScreen = () => {
     username: "",
     password: "",
     isValidUser: true,
-    isValidPassword: true
+    isValidPassword: true,
+    dataUser: null
   });
 
   const { login } = useContext(AuthContext);
@@ -58,18 +60,22 @@ const LoginScreen = () => {
     }
   };
 
-  const handleMasukButton = () => {
-    pass;
-  };
-
-  const testDatabase = () => {
-    database
-      .ref("/users/125")
-      .set({
-        name: "Ada Lovelace",
-        age: 31
-      })
-      .then(() => console.log("Data set."));
+  const loginButton = async () => {
+    Keyboard.dismiss();
+    try {
+      await database.ref("/users/" + nohp).once("value").then(snapshot => {
+        if (snapshot.val()) {
+          setData({ ...data, dataUser: snapshot.val(), isValidUser: true });
+          if (snapshot.val()["password"] != password) {
+            setData({ ...data, isValidPassword: false });
+          } else {
+            setData({ ...data, isValidPassword: true }); // isi perintah async storage data + next screen
+          }
+        } else {
+          setData({ ...data, dataUser: null, isValidUser: false });
+        }
+      });
+    } catch (e) {}
   };
 
   return (
@@ -125,23 +131,21 @@ const LoginScreen = () => {
             iconType="lock"
             // secureTextEntry={true}
             autoCapitalize="none"
-            onEndEditing={e => handleValidPassword(e.nativeEvent.text)}
+            // onEndEditing={e => handleValidPassword(e.nativeEvent.text)}
             onFocus={() => setData({ ...data, isValidPassword: true })}
           />
           <View style={{ height: 30 }}>
             {data.isValidPassword
               ? null
               : <Animatable.View animation="fadeInLeft" duration={500}>
-                  <Text style={styles.errorMessage}>
-                    Password harus lebih dari 8 karakter.
-                  </Text>
+                  <Text style={styles.errorMessage}>Password salah.</Text>
                 </Animatable.View>}
           </View>
 
           <FormButton
             buttonTitle="Masuk"
             // onPress={() => login(email, password)}
-            onPress={() => testDatabase()}
+            onPress={() => loginButton()}
             blurOnpress={true}
           />
 

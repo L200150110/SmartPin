@@ -4,17 +4,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import LoginScreen from "./../screens/login/LoginScreen";
 import OnboardingScreen from "./../screens/OnboardingScreen";
-import AdminRegister from "./../screens/admin/AdminRegister";
-import SignupScreen from "./../screens/SignupScreen";
-import AdminIndexScreen from "./../screens/admin/AdminIndexScreen";
-import AdminLogScreen1 from "./../screens/admin/AdminLogScreen1";
-import AdminLogScreen2 from "./../screens/admin/AdminLogScreen2";
-import AdminUserListScreen from "./../screens/admin/AdminUserListScreen";
-import AdminRegisterScreen from "./../screens/admin/AdminRegisterScreen";
-import UserIndexScreen from "./../screens/user/UserIndexScreen";
-import UserLogScreen1 from "./../screens/user/UserLogScreen1";
-import UserLogScreen2 from "./../screens/user/UserLogScreen2";
-import AdminUserInfoScreen from "./../screens/admin/AdminUserInfoScreen";
 
 const Stack = createStackNavigator();
 
@@ -57,7 +46,7 @@ const AuthStack = () => {
       />
       <Stack.Screen
         name="Login"
-        component={SignupScreen}
+        component={LoginScreen}
         options={{ header: () => null }}
       />
     </Stack.Navigator>
