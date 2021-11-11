@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthContext, AuthProvider } from "./AuthProvider";
-import auth from "@react-native-firebase/auth";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// import auth from "@react-native-firebase/auth";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import AuthStack from "./AuthStack";
+// import AuthStack from "./AuthStack";
 import AppStack from "./AppStack";
 
 const Routes = () => {
@@ -23,11 +23,11 @@ const Routes = () => {
 
   // if (initializing) return null;
 
-  const [user, setUser] = useState(null);
-
   return (
     <NavigationContainer>
-      {user ? <AppStack /> : <AuthStack />}
+      {/* {user ? <AppStack /> : <AuthStack />} */}
+      <AppStack />
+      {/* <AuthStack /> */}
     </NavigationContainer>
   );
 };

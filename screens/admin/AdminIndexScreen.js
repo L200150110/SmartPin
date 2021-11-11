@@ -12,8 +12,34 @@ import {
 import FormButton from "./../../components/FormButton";
 import { AuthContext } from "./../../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
+import { database } from "./../../components/database";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AdminIndexScreen = () => {
+  const [dataUser, setDataUser] = useState(null);
+
+  const bukaPintu = () => {
+    console.log(dataUser["no_hp"]);
+    database
+      .ref("/log/" + dataUser["no_hp"])
+      .set({
+        name: "Ada Lovelace",
+        age: 31
+      })
+      .then(() => console.log("Data set."));
+  };
+
+  useEffect(() => {
+    AsyncStorage.getItem("Data_User").then(value => {
+      if (value == null) {
+        // setIsLogin(false);
+      } else {
+        // setIsLogin(true);
+        setDataUser(JSON.parse(value));
+      }
+    });
+  });
+
   return (
     <View>
       <StatusBar translucent backgroundColor="transparent" />
@@ -36,7 +62,12 @@ const AdminIndexScreen = () => {
         <View style={[styles.inputContainer, styles.centerAlign]}>
           <Image source={require("./../../assets/img/pintu-01.png")} />
           <View style={{ width: "100%", padding: 20 }}>
-            <FormButton buttonTitle="Buka" />
+            <FormButton
+              buttonTitle="Buka"
+              onPress={() => {
+                bukaPintu();
+              }}
+            />
           </View>
           <View style={{ flexDirection: "row", paddingHorizontal: 20 }}>
             <View style={{ width: "46%", marginRight: 20 }}>
@@ -72,19 +103,11 @@ const styles = StyleSheet.create({
   inputContainer: {
     backgroundColor: "rgba(255,255,255,1)",
     padding: 20,
-    marginTop: -180,
+    marginTop: -240,
     borderRadius: 20,
     width: windowWidth / 1.2,
-    height: windowHeight / 1.1,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5
-    },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-
-    elevation: 10
+    height: windowHeight / 1.2,
+    elevation: 5
   },
   errorMessage: {
     fontSize: 14,

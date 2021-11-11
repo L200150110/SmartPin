@@ -16,8 +16,10 @@ import { AuthContext } from "./../../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
 import validator from "validator";
 import { database } from "./../../components/database";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AppStack from "./../../navigation/AppStack";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [nohp, setNohp] = useState();
   const [password, setPassword] = useState();
 
@@ -32,7 +34,6 @@ const LoginScreen = () => {
   const { login } = useContext(AuthContext);
 
   const handleValidUser = val => {
-    // console.log(val);
     if (validator.isNumeric(val)) {
       setData({
         ...data,
@@ -46,20 +47,6 @@ const LoginScreen = () => {
     }
   };
 
-  const handleValidPassword = val => {
-    if (val.trim().length < 8) {
-      setData({
-        ...data,
-        isValidPassword: false
-      });
-    } else {
-      setData({
-        ...data,
-        isValidPassword: true
-      });
-    }
-  };
-
   const loginButton = async () => {
     Keyboard.dismiss();
     try {
@@ -69,7 +56,15 @@ const LoginScreen = () => {
           if (snapshot.val()["password"] != password) {
             setData({ ...data, isValidPassword: false });
           } else {
-            setData({ ...data, isValidPassword: true }); // isi perintah async storage data + next screen
+            setData({ ...data, isValidPassword: true });
+            // isi perintah async storage data + next screen
+            try {
+              const jsonValue = JSON.stringify(snapshot);
+              AsyncStorage.setItem("Data_User", jsonValue);
+              navigation.navigate("Admin Home");
+            } catch (e) {
+              console.log(e);
+            }
           }
         } else {
           setData({ ...data, dataUser: null, isValidUser: false });
