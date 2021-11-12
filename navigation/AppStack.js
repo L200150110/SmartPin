@@ -6,6 +6,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import HomeScreen from "./../screens/HomeScreen";
 import LoginScreen from "./../screens/login/LoginScreen";
 import AdminIndexScreen from "./../screens/admin/AdminIndexScreen";
+import AdminUserListScreen from "./../screens/admin/AdminUserListScreen";
+import AdminLogScreen1 from "./../screens/admin/AdminLogScreen1";
+import AdminRegisterScreen from "./../screens/admin/AdminRegisterScreen";
 
 const Stack = createStackNavigator();
 
@@ -22,7 +25,7 @@ const AppStack = () => {
       } else {
         setIsLogin(true);
         // dataUser = value;
-        console.log(value);
+        // console.log(value);
       }
     });
   }, []);
@@ -37,6 +40,21 @@ const AppStack = () => {
       <Stack.Screen
         name="Admin Home"
         component={AdminIndexScreen}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="Admin User List"
+        component={AdminUserListScreen}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="Admin Log 1"
+        component={AdminLogScreen1}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="Admin Register"
+        component={AdminRegisterScreen}
         options={{ header: () => null }}
       />
     </Stack.Navigator>

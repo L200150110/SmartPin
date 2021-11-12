@@ -1,182 +1,192 @@
-import React, { useState, useContext } from "react";
+import React, { Component, useEffect, useState, useContext } from "react";
+import LinearGradient from "react-native-linear-gradient";
+import { windowWidth, windowHeight } from "./../../utils/Dimentions";
 import {
   View,
   Text,
   TouchableOpacity,
   Image,
   StyleSheet,
+  StatusBar,
+  Alert,
   Keyboard
 } from "react-native";
 import FormInput from "./../../components/FormInput";
 import FormButton from "./../../components/FormButton";
 import SocialButton from "./../../components/SocialButton";
-import { AuthContext } from "./../../navigation/AuthProvider";
-import validator from "validator";
 import * as Animatable from "react-native-animatable";
+import validator from "validator";
+import { database } from "./../../components/database";
 
-const AdminRegisterScreen = ({ navigation }) => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
+const AdminRegister = () => {
   const [data, setData] = useState({
-    username: "",
+    nama: "",
+    no_hp: "",
+    no_kamar: "",
     password: "",
-    isValidUser: true,
-    isValidPassword: true,
-    isValidConfirmPassword: true
+    isValidNama: false,
+    isValidNoHp: false,
+    isValidNoKamar: false,
+    isValidPassword: false
   });
 
-  const { register } = useContext(AuthContext);
-
-  const handleValidUser = val => {
-    // console.log(val);
-    if (validator.isEmail(val)) {
-      setData({
-        ...data,
-        isValidUser: true
-      });
-    } else {
-      setData({
-        ...data,
-        isValidUser: false
-      });
-    }
+  const alertRegister = (title, message) => {
+    Alert.alert(title, message, [
+      { text: "OK", onPress: () => console.log("OK Pressed") }
+    ]);
   };
 
-  const handleValidPassword = val => {
-    if (val.trim().length < 8) {
-      setData({
-        ...data,
-        isValidPassword: false
-      });
-      // } else {
-      //   setData({
-      //     ...data,
-      //     isValidPassword: true
-      //   });
-    }
+  // validation input
+  const inputValidation = () => {
+    data["isValidNoHp"] = validator.isNumeric(data["no_hp"]);
+    data["isValidNama"] = validator.isAlpha(data["nama"]);
+    data["isValidNoKamar"] = validator.isNumeric(data["no_kamar"]);
+    data["isValidPassword"] = validator.isStrongPassword(data["password"]);
   };
 
-  const handleValidConfirmPassword = val => {
-    if (val != password) {
-      setData({
-        ...data,
-        isValidConfirmPassword: false
+  const sendFirebase = async () => {
+    await database
+      .ref("/users/" + data["no_hp"])
+      .set({
+        nama: data["nama"],
+        no_hp: data["no_hp"],
+        no_kamar: data["no_kamar"],
+        password: data["password"]
+      })
+      .then(() => {
+        console.log("send to firebase success");
       });
-    }
   };
 
-  const onRegisterPressed = () => {
+  const tambahUser = () => {
+    // validasi + if kosong / isi + add data firebase
+    var message = "";
     Keyboard.dismiss();
-    if (password == confirmPassword) {
-      register(email, password);
-    } else {
-      console.log("password didn't match");
-    }
+    inputValidation();
+    data["isValidNoHp"] ? null : (message += "No Handphone tidak sesuai\n");
+    data["isValidNama"] ? null : (message += "Nama tidak sesuai\n");
+    data["isValidNoKamar"] ? null : (message += "No Kamar tidak sesuai\n");
+    data["isValidPassword"]
+      ? null
+      : (message += "Password harus lebih dari 8 karakter");
+    message != ""
+      ? alertRegister("Kesalahan Input Data", message)
+      : sendFirebase();
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Add User</Text>
+    <View>
+      <StatusBar translucent backgroundColor="transparent" />
+      <LinearGradient
+        colors={["#ff00cc", "#333399"]}
+        style={[styles.centerAlign, styles.container]}
+      >
+        <Image
+          source={require("./../../assets/img/logo3-02.png")}
+          style={styles.logo}
+        />
+      </LinearGradient>
+      <View
+        style={[
+          styles.centerAlign,
+          {
+            marginTop: 0,
+            backgroundColor: "rgba(230, 230, 230, 0.9)",
+            height: windowHeight
+          }
+        ]}
+      >
+        <View style={[styles.inputContainer, styles.centerAlign]}>
+          <FormInput
+            labelValue={data["no_hp"]}
+            onChangeText={no_hp => setData({ ...data, no_hp: no_hp })}
+            placeholderText="No Handphone"
+            iconType="phone"
+            keyboardType="number-pad"
+            caretHidden={false}
+            secureTextEntry={false}
+          />
 
-      <FormInput
-        labelValue={email}
-        onChangeText={userEmail => setEmail(userEmail)}
-        placeholderText="Email"
-        iconType="user"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        caretHidden={false}
-        autoCorrect={false}
-        onEndEditing={e => handleValidUser(e.nativeEvent.text)}
-        onFocus={() => setData({ ...data, isValidUser: true })}
-      />
-      {data.isValidUser
-        ? null
-        : <Animatable.View animation="fadeInLeft" duration={500}>
-            <Text style={styles.errorMessage}>Bad Email format.</Text>
-          </Animatable.View>}
-      <FormInput
-        labelValue={password}
-        onChangeText={userPassword => setPassword(userPassword)}
-        placeholderText="Password"
-        iconType="lock"
-        onEndEditing={e => handleValidPassword(e.nativeEvent.text)}
-        // securityTextEntry={true}
-        autoCapitalize="none"
-        onFocus={() => setData({ ...data, isValidPassword: true })}
-      />
-      {data.isValidPassword
-        ? null
-        : <Animatable.View animation="fadeInLeft" duration={500}>
-            <Text style={styles.errorMessage}>
-              Password must be more than 8 characters.
-            </Text>
-          </Animatable.View>}
-      <FormInput
-        labelValue={confirmPassword}
-        onChangeText={userPassword => setConfirmPassword(userPassword)}
-        placeholderText="Confirm Password"
-        iconType="lock"
-        onEndEditing={e => handleValidConfirmPassword(e.nativeEvent.text)}
-        // securityTextEntry={true}
-        autoCapitalize="none"
-        onFocus={() => setData({ ...data, isValidConfirmPassword: true })}
-      />
-      {data.isValidConfirmPassword
-        ? null
-        : <Animatable.View animation="fadeInLeft" duration={500}>
-            <Text style={styles.errorMessage}>Password didn't match.</Text>
-          </Animatable.View>}
-      <FormButton
-        buttonTitle="Sign Up"
-        // onPress={() => register(email, password)}
-        onPress={() => onRegisterPressed()}
-      />
+          <FormInput
+            labelValue={data["nama"]}
+            onChangeText={nama => setData({ ...data, nama: nama })}
+            placeholderText="Nama"
+            iconType="user"
+            keyboardType="email-address"
+            caretHidden={false}
+          />
+
+          <FormInput
+            labelValue={data["no_kamar"]}
+            onChangeText={no_kamar => setData({ ...data, no_kamar: no_kamar })}
+            placeholderText="No Kamar"
+            iconType="book"
+            keyboardType="number-pad"
+            caretHidden={false}
+            secureTextEntry={false}
+          />
+
+          <FormInput
+            labelValue={data["password"]}
+            onChangeText={password => setData({ ...data, password: password })}
+            placeholderText="Password"
+            iconType="lock"
+            autoCapitalize="none"
+          />
+
+          <FormButton
+            buttonTitle="Tambah User"
+            onPress={() => {
+              tambahUser();
+            }}
+            blurOnpress={true}
+          />
+        </View>
+        <Image
+          source={require("./../../assets/img/ums.png")}
+          style={{ height: 100, width: 100, marginTop: 50 }}
+        />
+      </View>
     </View>
   );
 };
 
-export default AdminRegisterScreen;
+export default AdminRegister;
 
 const styles = StyleSheet.create({
   container: {
-    backgrounColor: "#f9fafd",
-    flex: 1,
-    alignItems: "center",
+    width: windowWidth,
+    height: windowHeight / 2.7
+  },
+  centerAlign: {
     justifyContent: "center",
-    padding: 20
+    alignItems: "center"
   },
-  text: {
-    fontFamily: "Kufam-SemiBoldItalic",
-    fontSize: 28,
-    marginBottom: 10,
-    color: "#051d5f"
+  logo: {
+    height: windowHeight / 14,
+    width: windowWidth / 1.2
   },
-  navButton: {
-    marginTop: 15
-  },
-  navButtonText: {
-    fontSize: 18,
-    fontWeight: "500",
-    color: "#2e64e5",
-    fontFamily: "Lato-Regular"
-  },
-  textPrivate: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    marginVertical: 35,
-    justifyContent: "center"
-  },
-  color_textPrivate: {
-    fontSize: 13,
-    fontWeight: "400",
-    fontFamily: "Lato-Regular",
-    color: "grey"
+  inputContainer: {
+    backgroundColor: "rgba(255,255,255,1)",
+    padding: 20,
+    marginTop: -windowHeight / 2.1,
+    borderRadius: 20,
+    width: windowWidth / 1.2,
+    height: windowHeight / 2.1,
+    elevation: 5
   },
   errorMessage: {
     fontSize: 14,
     paddingBottom: 10,
     color: "#de4d41"
+  },
+  forgotButton: {
+    marginTop: 20
+  },
+  navButtonText: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#2e64e5",
+    fontFamily: "Lato-Regular"
   }
 });

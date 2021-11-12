@@ -13,9 +13,10 @@ import {
 import FormButton from "./../../components/FormButton";
 import { AuthContext } from "./../../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
+import AntDesign from "react-native-vector-icons/AntDesign";
 import faker from "faker";
 
-const AdminUserListScreen = () => {
+const AdminUserListScreen = ({ navigation }) => {
   faker.seed(20);
   const DATA = [...Array(10).keys()].map((_, i) => {
     return {
@@ -119,12 +120,14 @@ const AdminUserListScreen = () => {
           />
         </View>
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("Admin Register")}>
         <LinearGradient
           colors={["#ff00cc", "#333399"]}
           style={[styles.floatingButton, styles.centerAlign]}
         >
-          <Text style={styles.floatingButtonText}>+</Text>
+          <Text style={styles.floatingButtonText}>
+            <AntDesign name={"plus"} size={25} color="#fff" />
+          </Text>
         </LinearGradient>
       </TouchableOpacity>
     </View>
@@ -152,10 +155,10 @@ const styles = StyleSheet.create({
   inputContainer: {
     backgroundColor: "rgba(255,255,255,1)",
     padding: 20,
-    marginTop: -230,
+    marginTop: -240,
     borderRadius: 20,
     width: windowWidth / 1.2,
-    height: windowHeight / 1.15,
+    height: windowHeight / 1.2,
     elevation: 5
   },
   errorMessage: {
@@ -178,7 +181,7 @@ const styles = StyleSheet.create({
     width: 60,
     backgroundColor: "#ee6e73",
     borderRadius: 30,
-    bottom: 190,
+    bottom: 210,
     right: 50,
     elevation: 3
   },

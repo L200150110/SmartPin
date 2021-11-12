@@ -15,26 +15,45 @@ import * as Animatable from "react-native-animatable";
 import { database } from "./../../components/database";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const AdminIndexScreen = () => {
+const AdminIndexScreen = ({ navigation }) => {
   const [dataUser, setDataUser] = useState(null);
+  const [terbuka, setTerbuka] = useState(false);
 
-  const bukaPintu = () => {
-    console.log(dataUser["no_hp"]);
-    database
-      .ref("/log/" + dataUser["no_hp"])
-      .set({
-        name: "Ada Lovelace",
-        age: 31
-      })
-      .then(() => console.log("Data set."));
+  const bukaPintu = async () => {
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    var jam =
+      date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    date = month + "-" + date.getDate() + "-" + date.getFullYear();
+    if (terbuka) {
+      setTerbuka(false);
+      await database
+        .ref("/pintu/")
+        .set({
+          pintu: false
+        })
+        .then(() => console.log("pintu tertutup"));
+    } else {
+      setTerbuka(true);
+      await database
+        .ref("/log/" + dataUser["no_hp"] + "/" + date + "/" + jam)
+        .set({
+          jam: jam
+        })
+        .then(() => console.log("Data set."));
+      await database
+        .ref("/pintu/")
+        .set({
+          pintu: true
+        })
+        .then(() => console.log("pintu terbuka"));
+    }
   };
 
   useEffect(() => {
     AsyncStorage.getItem("Data_User").then(value => {
       if (value == null) {
-        // setIsLogin(false);
       } else {
-        // setIsLogin(true);
         setDataUser(JSON.parse(value));
       }
     });
@@ -60,7 +79,10 @@ const AdminIndexScreen = () => {
         ]}
       >
         <View style={[styles.inputContainer, styles.centerAlign]}>
-          <Image source={require("./../../assets/img/pintu-01.png")} />
+          {!terbuka
+            ? <Image source={require("./../../assets/img/pintu-01.png")} />
+            : <Image source={require("./../../assets/img/pintu2-01.png")} />}
+
           <View style={{ width: "100%", padding: 20 }}>
             <FormButton
               buttonTitle="Buka"
@@ -71,10 +93,16 @@ const AdminIndexScreen = () => {
           </View>
           <View style={{ flexDirection: "row", paddingHorizontal: 20 }}>
             <View style={{ width: "46%", marginRight: 20 }}>
-              <FormButton buttonTitle="Log" />
+              <FormButton
+                buttonTitle="Log"
+                onPress={() => navigation.navigate("Admin Log 1")}
+              />
             </View>
             <View style={{ width: "46%" }}>
-              <FormButton buttonTitle="User" />
+              <FormButton
+                buttonTitle="User"
+                onPress={() => navigation.navigate("Admin User List")}
+              />
             </View>
           </View>
         </View>
