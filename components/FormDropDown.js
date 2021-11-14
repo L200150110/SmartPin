@@ -9,17 +9,11 @@ import {
 import { windowHeight, windowWidth } from "./../utils/Dimentions";
 
 import AntDesign from "react-native-vector-icons/AntDesign";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { Picker } from "@react-native-picker/picker";
-import DatePicker from "react-native-date-picker";
-import { format } from "date-fns";
+import { database } from "./database";
 
-const FormDropDown = ({ labelValue, placeholderText, iconType, ...rest }) => {
-  const [pickerValue, setPickerValue] = useState("JavaScript");
+const FormDropDown = ({ iconType, dateString, ...rest }) => {
   const [isUser, setIsUser] = useState(false);
-  const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
-  const [dateString, setDateString] = useState("Pilih Tanggal");
 
   useEffect(() => {
     if (iconType == "user") {
@@ -27,49 +21,29 @@ const FormDropDown = ({ labelValue, placeholderText, iconType, ...rest }) => {
     }
   });
 
-  const dateToString = date => {
-    var formatedDate = format(date, "dd-MM-yyyy", {
-      awareOfUnicodeTokens: true
-    });
-    setDateString(formatedDate);
-  };
-
   return (
     <View style={styles.inputContainer}>
       <View style={styles.iconStyle}>
         <AntDesign name={iconType} size={25} color="#666" />
       </View>
       {isUser
-        ? <Picker
-            style={styles.input}
-            selectedValue={pickerValue}
-            enabled={false}
-            onValueChange={itemValue => setPickerValue(itemValue)}
-          >
-            <Picker.Item label="JavaScript" value="JavaScript" />
+        ? <Picker style={styles.input} {...rest}>
+            <Picker.Item
+              label="Pilih Penghuni Kamar"
+              value="Pilih Penghuni Kamar"
+            />
             <Picker.Item label="Flutter" value="Flutter" />
             <Picker.Item label="PHP" value="PHP" />
           </Picker>
         : <TouchableOpacity
             style={[styles.input, { paddingLeft: 15 }]}
-            onPress={() => setOpen(true)}
+            // onPress={() => setOpen(true)}
+            {...rest}
           >
-            <Text style={{color: 'black'}}>{dateString}</Text>
+            <Text style={{ color: "black" }}>
+              {dateString}
+            </Text>
           </TouchableOpacity>}
-      <DatePicker
-        modal
-        open={open}
-        date={date}
-        mode='date'
-        onConfirm={date => {
-          setOpen(false);
-          setDate(date);
-          dateToString(date);
-        }}
-        onCancel={() => {
-          setOpen(false);
-        }}
-      />
     </View>
   );
 };

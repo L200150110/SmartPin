@@ -16,15 +16,27 @@ import { AuthContext } from "./../../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
 import validator from "validator";
 import FormDropDown from "./../../components/FormDropDown";
-// import { Picker } from "@react-native-picker/picker";
+import DatePicker from "react-native-date-picker";
+import { format } from "date-fns";
 
 const AdminLogScreen1 = () => {
-  const [chooseData, setChooseData] = useState("Select Item...");
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedUser, setSelectedUser] = useState("JavaScript");
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
+  const [dateString, setDateString] = useState("Pilih Tanggal");
 
-  const changeModalVisibility = bool => {
-    setIsModalVisible(bool);
+  const cekData = () => {
+    console.log(selectedUser);
+    console.log(selectedDate);
   };
+
+  const dateToString = date => {
+    var formatedDate = format(date, "dd-MM-yyyy", {
+      awareOfUnicodeTokens: true
+    });
+    setDateString(formatedDate);
+  };
+
   return (
     <View>
       <StatusBar translucent backgroundColor="transparent" />
@@ -48,34 +60,44 @@ const AdminLogScreen1 = () => {
         ]}
       >
         <View style={[styles.inputContainer, styles.centerAlign]}>
-          <FormDropDown iconType="user" />
+          <FormDropDown
+            iconType="user"
+            enable={true}
+            selectedValue={selectedUser}
+            onValueChange={itemValue => setSelectedUser(itemValue)}
+          />
 
-          <View style={{ height: 30 }}>
-            {/* {data.isValidUser
-              ? null
-              : <Animatable.View animation="fadeInLeft" duration={500}>
-                  <Text style={styles.errorMessage}>
-                    Nomor Handphone tidak valid.
-                  </Text>
-                </Animatable.View>} */}
-          </View>
+          <View style={{ height: 30 }} />
 
-          <FormDropDown iconType="calendar" />
+          <FormDropDown
+            iconType="calendar"
+            dateString={dateString}
+            onPress={() => setOpen(true)}
+          />
 
-          <View style={{ height: 30 }}>
-            {/* {data.isValidPassword
-              ? null
-              : <Animatable.View animation="fadeInLeft" duration={500}>
-                  <Text style={styles.errorMessage}>
-                    Password harus lebih dari 8 karakter.
-                  </Text>
-                </Animatable.View>} */}
-          </View>
+          <DatePicker
+            modal
+            open={open}
+            date={selectedDate}
+            mode="date"
+            onConfirm={date => {
+              setOpen(false);
+              setSelectedDate(date);
+              dateToString(date);
+            }}
+            onCancel={() => {
+              setOpen(false);
+            }}
+          />
+
+          <View style={{ height: 30 }} />
 
           <FormButton
-            buttonTitle="Masuk"
-            // onPress={() => login(email, password)}
-            blurOnpress={true}
+            buttonTitle="Lihat Riwayat"
+            // blurOnpress={true}
+            onPress={() => {
+              cekData();
+            }}
           />
         </View>
         <Image
@@ -109,15 +131,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: windowWidth / 1.2,
     height: windowHeight / 2.1,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5
-    },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-
-    elevation: 10
+    elevation: 5
   },
   errorMessage: {
     fontSize: 14,
