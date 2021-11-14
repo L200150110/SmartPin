@@ -15,7 +15,7 @@ const Stack = createStackNavigator();
 // const [dataUser, setDataUser] = useState(null);
 
 const AppStack = () => {
-  const routeName = "Login";
+  let routeName;
   const [isLogin, setIsLogin] = useState(null);
 
   useEffect(() => {
@@ -24,14 +24,20 @@ const AppStack = () => {
         setIsLogin(false);
       } else {
         setIsLogin(true);
-        // dataUser = value;
-        // console.log(value);
       }
     });
-  }, []);
+  });
+
+  if (isLogin === null) {
+    return null;
+  } else if (isLogin == true) {
+    routeName = "Admin Home";
+  } else {
+    routeName = "Login";
+  }
 
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName={routeName}>
       <Stack.Screen
         name="Login"
         component={LoginScreen}

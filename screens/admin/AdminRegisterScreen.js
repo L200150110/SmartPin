@@ -18,7 +18,7 @@ import * as Animatable from "react-native-animatable";
 import validator from "validator";
 import { database } from "./../../components/database";
 
-const AdminRegister = () => {
+const AdminRegister = ({ navigation }) => {
   const [data, setData] = useState({
     nama: "",
     no_hp: "",
@@ -39,7 +39,7 @@ const AdminRegister = () => {
   // validation input
   const inputValidation = () => {
     data["isValidNoHp"] = validator.isNumeric(data["no_hp"]);
-    data["isValidNama"] = validator.isAlpha(data["nama"]);
+    data["isValidNama"] = !validator.isEmpty(data["nama"]);
     data["isValidNoKamar"] = validator.isNumeric(data["no_kamar"]);
     data["isValidPassword"] = validator.isStrongPassword(data["password"]);
   };
@@ -56,6 +56,7 @@ const AdminRegister = () => {
       .then(() => {
         console.log("send to firebase success");
       });
+    navigation.navigate("Admin User List");
   };
 
   const tambahUser = () => {

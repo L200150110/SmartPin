@@ -14,21 +14,32 @@ import FormButton from "./../../components/FormButton";
 import { AuthContext } from "./../../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import faker from "faker";
+import { database } from "./../../components/database";
 
 const AdminUserListScreen = ({ navigation }) => {
-  faker.seed(20);
-  const DATA = [...Array(10).keys()].map((_, i) => {
-    return {
-      key: faker.datatype.uuid(),
-      image: `https://randomuser.me/api/portraits/${faker.helpers.randomize([
-        "women",
-        " men"
-      ])}/${faker.datatype.number(100)}.jpg`,
-      name: faker.name.findName(),
-      jobTitle: faker.name.jobTitle(),
-      email: faker.internet.email()
-    };
+  const [usersData, setUsersData] = useState([]);
+
+  const getData = async () => {
+    var data = [];
+
+    await database.ref("/users").once("value").then(snapshot => {
+      snapshot.forEach(child => {
+        data.push({
+          nama: child.val().nama,
+          no_hp: child.val().no_hp,
+          no_kamar: child.val().no_kamar,
+          password: child.val().password
+        });
+      });
+    });
+
+    // menambahkan read firebase push ke data
+    setUsersData(data);
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getData();
   });
 
   const SPACING = 20;
@@ -56,11 +67,10 @@ const AdminUserListScreen = ({ navigation }) => {
       >
         <View style={[styles.inputContainer, styles.centerAlign]}>
           <FlatList
-            data={DATA}
-            keyExtractor={item => item.key}
-            // contentContainerStyle={{padding: SPACING}}
+            data={usersData}
+            keyExtractor={item => item.no_hp}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item, index }) => {
+            renderItem={({ item }) => {
               return (
                 <View>
                   <TouchableOpacity
@@ -75,7 +85,7 @@ const AdminUserListScreen = ({ navigation }) => {
                     }}
                   >
                     <Image
-                      source={{ uri: item.image }}
+                      source={require("./../../assets/img/user_icon.png")}
                       style={{
                         width: AVATAR_SIZE,
                         height: AVATAR_SIZE,
@@ -92,24 +102,23 @@ const AdminUserListScreen = ({ navigation }) => {
                           color: "black"
                         }}
                       >
-                        {item.name}
+                        {item.nama}
                       </Text>
                       <Text
                         style={{ fontSize: 16, opacity: 0.5, color: "black" }}
                       >
-                        {item.jobTitle}
+                        Kamar Nomer: {item.no_kamar}
                       </Text>
                       <Text
                         style={{ fontSize: 12, opacity: 0.8, color: "#0099cc" }}
                       >
-                        {item.email}
+                        {item.no_hp}
                       </Text>
                     </View>
                   </TouchableOpacity>
                   <View
                     style={{
                       borderColor: "#bbb",
-                      // color: "#333",
                       borderBottomWidth: 1,
                       marginLeft: 80
                     }}

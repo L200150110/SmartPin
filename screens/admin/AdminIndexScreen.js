@@ -52,8 +52,7 @@ const AdminIndexScreen = ({ navigation }) => {
 
   useEffect(() => {
     AsyncStorage.getItem("Data_User").then(value => {
-      if (value == null) {
-      } else {
+      if (value != null) {
         setDataUser(JSON.parse(value));
       }
     });

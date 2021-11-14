@@ -17,7 +17,6 @@ import * as Animatable from "react-native-animatable";
 import validator from "validator";
 import { database } from "./../../components/database";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import AppStack from "./../../navigation/AppStack";
 
 const LoginScreen = ({ navigation }) => {
   const [nohp, setNohp] = useState();
