@@ -10,24 +10,36 @@ import {
   StatusBar,
   FlatList
 } from "react-native";
-import FormButton from "./../../components/FormButton";
-import { AuthContext } from "./../../navigation/AuthProvider";
-import * as Animatable from "react-native-animatable";
-import faker from "faker";
+import { database } from "./../../components/database";
 
-const AdminLogScreen2 = () => {
-  faker.seed(2);
-  const DATA = [...Array(10).keys()].map((_, i) => {
-    return {
-      key: faker.datatype.uuid(),
-      image: `https://randomuser.me/api/portraits/${faker.helpers.randomize([
-        "women",
-        " men"
-      ])}/${faker.datatype.number(60)}.jpg`,
-      name: faker.name.findName(),
-      jobTitle: faker.name.jobTitle(),
-      email: faker.internet.email()
-    };
+const AdminLogScreen2 = ({ route, navigation }) => {
+  const { no_hp, tgl } = route.params;
+  const [userData, setUserData] = useState([]);
+  const [userLog, setUserLog] = useState([]);
+
+  const getUserData = async () => {
+    const data = [];
+    await database.ref("/users/" + no_hp).once("value").then(snapshot => {
+      console.log(snapshot);
+    });
+  };
+
+  const getUserLog = async () => {
+    const data = [];
+    await database
+      .ref("/log/" + no_hp + "/" + tgl)
+      .once("value")
+      .then(snapshot => {
+        console.log(snapshot);
+      });
+  };
+
+  useEffect(() => {
+    // ambil data user + log
+    getUserData();
+    getUserLog();
+
+    console.log(no_hp, tgl);
   });
 
   const SPACING = 20;
@@ -55,8 +67,8 @@ const AdminLogScreen2 = () => {
       >
         <View style={[styles.inputContainer, styles.centerAlign]}>
           <FlatList
-            data={DATA}
-            keyExtractor={item => item.key}
+            data={userLog}
+            keyExtractor={item => item.jam}
             // contentContainerStyle={{padding: SPACING}}
             showsVerticalScrollIndicator={false}
             renderItem={({ item, index }) => {
@@ -73,15 +85,6 @@ const AdminLogScreen2 = () => {
                       marginRight: 70
                     }}
                   >
-                    <Image
-                      source={{ uri: item.image }}
-                      style={{
-                        width: AVATAR_SIZE,
-                        height: AVATAR_SIZE,
-                        borderRadius: AVATAR_SIZE,
-                        marginRight: SPACING / 2
-                      }}
-                    />
                     <View style={{ justifyContent: "center" }}>
                       <Text style={{ fontSize: 22, fontWeight: "700" }}>
                         {item.name}
@@ -135,19 +138,11 @@ const styles = StyleSheet.create({
   inputContainer: {
     backgroundColor: "rgba(255,255,255,1)",
     padding: 20,
-    marginTop: -180,
+    marginTop: -240,
     borderRadius: 20,
     width: windowWidth / 1.2,
-    height: windowHeight / 1.1,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5
-    },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-
-    elevation: 10
+    height: windowHeight / 1.2,
+    elevation: 5
   },
   errorMessage: {
     fontSize: 14,

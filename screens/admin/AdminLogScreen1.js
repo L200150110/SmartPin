@@ -33,6 +33,13 @@ const AdminLogScreen1 = ({ navigation }) => {
     console.log(usersData);
   };
 
+  const lihatRiwayat = () => {
+    navigation.navigate("Admin Log 2", {
+      no_hp: selectedUser,
+      tgl: dateString
+    });
+  };
+
   const dateToString = date => {
     var formatedDate = format(date, "dd-MM-yyyy", {
       awareOfUnicodeTokens: true
@@ -118,7 +125,8 @@ const AdminLogScreen1 = ({ navigation }) => {
             buttonTitle="Lihat Riwayat"
             // blurOnpress={true}
             onPress={() => {
-              cekData();
+              // cekData();
+              lihatRiwayat();
             }}
           />
         </View>

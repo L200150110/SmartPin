@@ -24,7 +24,7 @@ const AdminIndexScreen = ({ navigation }) => {
     var month = date.getMonth() + 1;
     var jam =
       date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    date = month + "-" + date.getDate() + "-" + date.getFullYear();
+    date = date.getDate() + "-" + month + "-" + date.getFullYear();
     if (terbuka) {
       setTerbuka(false);
       await database

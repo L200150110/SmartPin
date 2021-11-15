@@ -37,7 +37,7 @@ const FormDropDown = ({ iconType, dateString, usersData, ...rest }) => {
               return (
                 <Picker.Item
                   label={user["nama"]}
-                  value={user["nama"]}
+                  value={user["no_hp"]}
                   key={user["no_hp"]}
                 />
               );

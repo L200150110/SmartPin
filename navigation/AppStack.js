@@ -8,6 +8,7 @@ import LoginScreen from "./../screens/login/LoginScreen";
 import AdminIndexScreen from "./../screens/admin/AdminIndexScreen";
 import AdminUserListScreen from "./../screens/admin/AdminUserListScreen";
 import AdminLogScreen1 from "./../screens/admin/AdminLogScreen1";
+import AdminLogScreen2 from "./../screens/admin/AdminLogScreen2";
 import AdminRegisterScreen from "./../screens/admin/AdminRegisterScreen";
 
 const Stack = createStackNavigator();
@@ -56,6 +57,11 @@ const AppStack = () => {
       <Stack.Screen
         name="Admin Log 1"
         component={AdminLogScreen1}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="Admin Log 2"
+        component={AdminLogScreen2}
         options={{ header: () => null }}
       />
       <Stack.Screen
