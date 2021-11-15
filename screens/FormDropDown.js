@@ -18,7 +18,6 @@ const FormDropDown = ({ iconType, dateString, usersData, ...rest }) => {
   useEffect(() => {
     if (iconType == "user") {
       setIsUser(true);
-      // usersData.forEach(user => console.log(user["nama"]));
     }
   });
 
@@ -33,18 +32,13 @@ const FormDropDown = ({ iconType, dateString, usersData, ...rest }) => {
               label="Pilih Penghuni Kamar"
               value="Pilih Penghuni Kamar"
             />
-            {usersData.map(user => {
-              return (
-                <Picker.Item
-                  label={user["nama"]}
-                  value={user["nama"]}
-                  key={user["no_hp"]}
-                />
-              );
+            {usersData.map((user, key) => {
+              <Picker.Item label={user["nama"]} value={user["nama"]} />;
             })}
           </Picker>
         : <TouchableOpacity
             style={[styles.input, { paddingLeft: 15 }]}
+            // onPress={() => setOpen(true)}
             {...rest}
           >
             <Text style={{ color: "black" }}>

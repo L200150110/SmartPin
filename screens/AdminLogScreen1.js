@@ -20,7 +20,7 @@ import DatePicker from "react-native-date-picker";
 import { format } from "date-fns";
 import { database } from "./../../components/database";
 
-const AdminLogScreen1 = ({ navigation }) => {
+const AdminLogScreen1 = () => {
   const [selectedUser, setSelectedUser] = useState("Pilih Penghuni Kamar");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [open, setOpen] = useState(false);

@@ -31,16 +31,17 @@ const AdminUserListScreen = ({ navigation }) => {
           password: child.val().password
         });
       });
+      setUsersData(data);
     });
-
-    // menambahkan read firebase push ke data
-    setUsersData(data);
-    console.log(data);
   };
 
   useEffect(() => {
-    getData();
-  });
+    let isMounted = true;
+    isMounted ? getData() : null;
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const SPACING = 20;
   const AVATAR_SIZE = 70;
