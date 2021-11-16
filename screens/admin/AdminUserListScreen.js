@@ -81,9 +81,12 @@ const AdminUserListScreen = ({ navigation }) => {
                       backgroundColor: "#fff",
                       borderRadius: 12,
                       borderColor: "#000",
-                      // backgroundColor: "#f00",
                       marginRight: 70
                     }}
+                    onPress={() =>
+                      navigation.navigate("Admin User Info", {
+                        no_hp: item.no_hp
+                      })}
                   >
                     <Image
                       source={require("./../../assets/img/user_icon.png")}

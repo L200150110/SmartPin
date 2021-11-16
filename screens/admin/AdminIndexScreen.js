@@ -84,7 +84,7 @@ const AdminIndexScreen = ({ navigation }) => {
 
           <View style={{ width: "100%", padding: 20 }}>
             <FormButton
-              buttonTitle="Buka"
+              buttonTitle={terbuka ? "Tutup" : "Buka"}
               onPress={() => {
                 bukaPintu();
               }}

@@ -7,6 +7,7 @@ import HomeScreen from "./../screens/HomeScreen";
 import LoginScreen from "./../screens/login/LoginScreen";
 import AdminIndexScreen from "./../screens/admin/AdminIndexScreen";
 import AdminUserListScreen from "./../screens/admin/AdminUserListScreen";
+import AdminUserInfoScreen from "./../screens/admin/AdminUserInfoScreen";
 import AdminLogScreen1 from "./../screens/admin/AdminLogScreen1";
 import AdminLogScreen2 from "./../screens/admin/AdminLogScreen2";
 import AdminRegisterScreen from "./../screens/admin/AdminRegisterScreen";
@@ -52,6 +53,11 @@ const AppStack = () => {
       <Stack.Screen
         name="Admin User List"
         component={AdminUserListScreen}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="Admin User Info"
+        component={AdminUserInfoScreen}
         options={{ header: () => null }}
       />
       <Stack.Screen

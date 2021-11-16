@@ -8,7 +8,8 @@ import {
   Image,
   StyleSheet,
   StatusBar,
-  Modal
+  Alert,
+  Keyboard
 } from "react-native";
 import FormInput from "./../../components/FormInput";
 import FormButton from "./../../components/FormButton";
@@ -16,15 +17,79 @@ import { AuthContext } from "./../../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
 import validator from "validator";
 import FormDropDown from "./../../components/FormDropDown";
-// import { Picker } from "@react-native-picker/picker";
+import { database } from "./../../components/database";
 
-const AdminUserInfoScreen = () => {
-  const [chooseData, setChooseData] = useState("Select Item...");
-  const [isModalVisible, setIsModalVisible] = useState(false);
+const AdminUserInfoScreen = ({ route, navigation }) => {
+  const { no_hp } = route.params;
+  const [userData, setUserData] = useState({
+    nama: "",
+    no_hp: "",
+    no_kamar: "",
+    password: "",
+    isValidNama: false,
+    isValidNoHp: false,
+    isValidNoKamar: false,
+    isValidPassword: false
+  });
+  const [isEdited, setIsEdited] = useState(false);
 
-  const changeModalVisibility = bool => {
-    setIsModalVisible(bool);
+  const alertRegister = (title, message) => {
+    Alert.alert(title, message, [
+      { text: "OK", onPress: () => console.log("OK Pressed") }
+    ]);
   };
+
+  // validation input
+  const inputValidation = () => {
+    userData["isValidNoHp"] = validator.isNumeric(userData["no_hp"]);
+    userData["isValidNama"] = !validator.isEmpty(userData["nama"]);
+    userData["isValidNoKamar"] = validator.isNumeric(userData["no_kamar"]);
+    userData["isValidPassword"] = validator.isStrongPassword(
+      userData["password"]
+    );
+  };
+
+  const getUserData = async () => {
+    // firebase ambil data user berdasar no_hp
+    await database.ref("/users/" + no_hp).once("value").then(snapshot => {
+      setUserData(snapshot.val());
+    });
+  };
+
+  const sendFirebase = async () => {
+    await database
+      .ref("/users/" + userData["no_hp"])
+      .update({
+        nama: userData["nama"],
+        no_hp: userData["no_hp"],
+        no_kamar: userData["no_kamar"],
+        password: userData["password"]
+      })
+      .then(() => console.log("Data updated."));
+    console.log("masuk fungsi sendFirebase()");
+  };
+
+  const updateUserData = () => {
+    // firebase update data berdasar input
+    var message = "";
+    Keyboard.dismiss();
+    inputValidation();
+    userData["isValidNoHp"] ? null : (message += "No Handphone tidak sesuai\n");
+    userData["isValidNama"] ? null : (message += "Nama tidak sesuai\n");
+    userData["isValidNoKamar"] ? null : (message += "No Kamar tidak sesuai\n");
+    userData["isValidPassword"]
+      ? null
+      : (message += "Password harus lebih dari 8 karakter");
+    message != ""
+      ? alertRegister("Kesalahan Input Data", message)
+      : sendFirebase() && setIsEdited(false);
+  };
+
+  useEffect(() => {
+    getUserData();
+    // console.log(userData);
+  }, []);
+
   return (
     <View>
       <StatusBar translucent backgroundColor="transparent" />
@@ -49,35 +114,46 @@ const AdminUserInfoScreen = () => {
       >
         <View style={[styles.inputContainer, styles.centerAlign]}>
           <FormInput
-            // labelValue={email}
-            // onChangeText={userEmail => setEmail(userEmail)}
+            labelValue={userData["nama"]}
+            onChangeText={nama =>
+              setUserData(data => ({ ...data, nama: nama }))}
             placeholderText="Nama"
+            secureTextEntry={false}
             iconType="user"
+            editable={isEdited}
           />
 
           <FormInput
-            // labelValue={email}
-            // onChangeText={userEmail => setEmail(userEmail)}
+            labelValue={userData["no_hp"]}
+            onChangeText={no_hp =>
+              setUserData(data => ({ ...data, no_hp: no_hp }))}
             placeholderText="No Telpon"
+            secureTextEntry={false}
             iconType="phone"
+            editable={isEdited}
           />
 
           <FormInput
-            // labelValue={email}
-            // onChangeText={userEmail => setEmail(userEmail)}
+            labelValue={userData["no_kamar"]}
+            onChangeText={no_kamar =>
+              setUserData(data => ({ ...data, no_kamar: no_kamar }))}
             placeholderText="No Kamar"
+            secureTextEntry={false}
             iconType="book"
+            editable={isEdited}
           />
           <FormInput
-            // labelValue={email}
-            // onChangeText={userEmail => setEmail(userEmail)}
+            labelValue={userData["password"]}
+            onChangeText={password =>
+              setUserData(data => ({ ...data, password: password }))}
             placeholderText="Password"
             iconType="lock"
+            editable={isEdited}
           />
 
           <FormButton
-            buttonTitle="Edit"
-            // onPress={() => login(email, password)}
+            buttonTitle={isEdited ? "Simpan" : "Edit"}
+            onPress={() => (isEdited ? updateUserData() : setIsEdited(true))}
             blurOnpress={true}
           />
         </View>
