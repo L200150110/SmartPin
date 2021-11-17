@@ -21,7 +21,7 @@ import { database } from "./../../components/database";
 
 const AdminUserInfoScreen = ({ route, navigation }) => {
   const { no_hp } = route.params;
-  const [oldNo, setOldNod] = useState(no_hp);
+  const [oldNo, setOldNo] = useState(no_hp);
   const [userData, setUserData] = useState({
     nama: "",
     no_hp: "",
@@ -40,6 +40,20 @@ const AdminUserInfoScreen = ({ route, navigation }) => {
     ]);
   };
 
+  const updateLog = async () => {
+    // baca firebase log
+    var data = null;
+    await database
+      .ref("/log/" + userData["no_hp"])
+      .once("value")
+      .then(snapshot => {
+        data = snapshot.val();
+      });
+
+    // update firebase log berdasar data
+    console.log(data);
+  };
+
   // validation input
   const inputValidation = () => {
     userData["isValidNoHp"] = validator.isNumeric(userData["no_hp"]);
@@ -53,13 +67,21 @@ const AdminUserInfoScreen = ({ route, navigation }) => {
   const getUserData = async () => {
     // firebase ambil data user berdasar no_hp
     await database.ref("/users/" + no_hp).once("value").then(snapshot => {
-      setUserData(snapshot.val());
+      // setUserData(snapshot.val())
+      setUserData(data => ({
+        ...data,
+        nama: snapshot.val()["nama"],
+        no_hp: snapshot.val()["no_hp"],
+        no_kamar: snapshot.val()["no_kamar"],
+        password: snapshot.val()["password"]
+      }));
     });
   };
 
   const sendFirebase = async () => {
-    if (userData["no_hp"] != no_hp) {
-      await database.ref("/users/" + no_hp).remove();
+    if (userData["no_hp"] != oldNo) {
+      await database.ref("/users/" + oldNo).remove();
+      setOldNo(userData["no_hp"]);
     }
     await database
       .ref("/users/" + userData["no_hp"])
@@ -91,7 +113,6 @@ const AdminUserInfoScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     getUserData();
-    // console.log(userData);
   }, []);
 
   return (
@@ -157,7 +178,10 @@ const AdminUserInfoScreen = ({ route, navigation }) => {
 
           <FormButton
             buttonTitle={isEdited ? "Simpan" : "Edit"}
-            onPress={() => (isEdited ? updateUserData() : setIsEdited(true))}
+            // onPress={() => (isEdited ? updateUserData() : setIsEdited(true))}
+            onPress={() => {
+              updateLog();
+            }}
             blurOnpress={true}
           />
         </View>
