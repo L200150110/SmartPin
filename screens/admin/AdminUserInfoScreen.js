@@ -21,6 +21,7 @@ import { database } from "./../../components/database";
 
 const AdminUserInfoScreen = ({ route, navigation }) => {
   const { no_hp } = route.params;
+  const [oldNo, setOldNod] = useState(no_hp);
   const [userData, setUserData] = useState({
     nama: "",
     no_hp: "",
@@ -57,6 +58,9 @@ const AdminUserInfoScreen = ({ route, navigation }) => {
   };
 
   const sendFirebase = async () => {
+    if (userData["no_hp"] != no_hp) {
+      await database.ref("/users/" + no_hp).remove();
+    }
     await database
       .ref("/users/" + userData["no_hp"])
       .update({
