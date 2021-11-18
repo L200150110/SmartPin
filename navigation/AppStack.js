@@ -28,7 +28,7 @@ const AppStack = () => {
         setIsLogin(true);
       }
     });
-  });
+  }, []);
 
   if (isLogin === null) {
     return null;
