@@ -109,7 +109,7 @@ const AdminUserListScreen = ({ navigation }) => {
                         {item.nama}
                       </Text>
                       <Text
-                        style={{ fontSize: 16, opacity: 0.5, color: "black" }}
+                        style={{ fontSize: 16, opacity: 0.5, color: "#666" }}
                       >
                         Kamar Nomer: {item.no_kamar}
                       </Text>

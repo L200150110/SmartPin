@@ -20,7 +20,7 @@ const FormDropDown = ({ iconType, dateString, usersData, ...rest }) => {
       setIsUser(true);
       // usersData.forEach(user => console.log(user["nama"]));
     }
-  });
+  }, []);
 
   return (
     <View style={styles.inputContainer}>
@@ -36,7 +36,7 @@ const FormDropDown = ({ iconType, dateString, usersData, ...rest }) => {
             {usersData.map(user => {
               return (
                 <Picker.Item
-                  label={user["nama"]}
+                  label={user["nama"] + " (Kamar no: " + user["no_kamar"] + ")"}
                   value={user["no_hp"]}
                   key={user["no_hp"]}
                 />

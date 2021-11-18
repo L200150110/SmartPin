@@ -20,7 +20,7 @@ const AdminLogScreen2 = ({ route, navigation }) => {
   const getUserData = async () => {
     const data = [];
     await database.ref("/users/" + no_hp).once("value").then(snapshot => {
-      console.log(snapshot);
+      setUserData(snapshot.val());
     });
   };
 
@@ -30,8 +30,13 @@ const AdminLogScreen2 = ({ route, navigation }) => {
       .ref("/log/" + no_hp + "/" + tgl)
       .once("value")
       .then(snapshot => {
-        console.log(snapshot);
+        // console.log(snapshot);
+        snapshot.forEach(item => {
+          data.push(item.val());
+        });
       });
+    // console.log(data);
+    setUserLog(data);
   };
 
   useEffect(() => {
@@ -40,7 +45,7 @@ const AdminLogScreen2 = ({ route, navigation }) => {
     getUserLog();
 
     console.log(no_hp, tgl);
-  });
+  }, []);
 
   const SPACING = 20;
   const AVATAR_SIZE = 70;
@@ -85,17 +90,32 @@ const AdminLogScreen2 = ({ route, navigation }) => {
                       marginRight: 70
                     }}
                   >
+                    <Image
+                      source={require("./../../assets/img/log_icon1.png")}
+                      style={{
+                        width: AVATAR_SIZE,
+                        height: AVATAR_SIZE,
+                        borderRadius: AVATAR_SIZE,
+                        marginRight: SPACING / 2
+                      }}
+                    />
                     <View style={{ justifyContent: "center" }}>
-                      <Text style={{ fontSize: 22, fontWeight: "700" }}>
-                        {item.name}
+                      <Text
+                        style={{
+                          fontSize: 22,
+                          fontWeight: "700",
+                          color: "#666"
+                        }}
+                      >
+                        {"Jam: " + item.jam + " WIB"}
                       </Text>
                       <Text style={{ fontSize: 16, opacity: 0.7 }}>
-                        {item.jobTitle}
+                        {"No kamar: " + userData.no_kamar}
                       </Text>
                       <Text
                         style={{ fontSize: 12, opacity: 0.8, color: "#0099cc" }}
                       >
-                        {item.email}
+                        {"No telp: " + userData.no_hp}
                       </Text>
                     </View>
                   </View>
