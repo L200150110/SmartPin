@@ -56,7 +56,7 @@ const AdminIndexScreen = ({ navigation }) => {
         setDataUser(JSON.parse(value));
       }
     });
-  });
+  }, []);
 
   return (
     <View>

@@ -40,20 +40,6 @@ const AdminUserInfoScreen = ({ route, navigation }) => {
     ]);
   };
 
-  const updateLog = async () => {
-    // baca firebase log
-    var data = null;
-    await database
-      .ref("/log/" + userData["no_hp"])
-      .once("value")
-      .then(snapshot => {
-        data = snapshot.val();
-      });
-
-    // update firebase log berdasar data
-    console.log(data);
-  };
-
   // validation input
   const inputValidation = () => {
     userData["isValidNoHp"] = validator.isNumeric(userData["no_hp"]);
@@ -80,7 +66,22 @@ const AdminUserInfoScreen = ({ route, navigation }) => {
 
   const sendFirebase = async () => {
     if (userData["no_hp"] != oldNo) {
+      // baca firebase log
+      var data = null;
+      await database.ref("/log/" + oldNo).once("value").then(snapshot => {
+        data = snapshot.val();
+      });
+
+      // hapus data lama
       await database.ref("/users/" + oldNo).remove();
+      await database.ref("/log/" + oldNo).remove();
+
+      // update firebase log berdasar data
+      await database.ref("/log/" + userData["no_hp"]).update(data).then(() => {
+        console.log("update data success");
+      });
+
+      // rubah nomor baru
       setOldNo(userData["no_hp"]);
     }
     await database
@@ -178,10 +179,7 @@ const AdminUserInfoScreen = ({ route, navigation }) => {
 
           <FormButton
             buttonTitle={isEdited ? "Simpan" : "Edit"}
-            // onPress={() => (isEdited ? updateUserData() : setIsEdited(true))}
-            onPress={() => {
-              updateLog();
-            }}
+            onPress={() => (isEdited ? updateUserData() : setIsEdited(true))}
             blurOnpress={true}
           />
         </View>
