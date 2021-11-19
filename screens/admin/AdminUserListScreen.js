@@ -160,10 +160,11 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   logo: {
-    marginTop: 50,
-    marginLeft: 20,
+    top: 55,
+    left: 20,
     height: 25,
-    width: 150
+    width: 150,
+    position: "absolute"
   },
   inputContainer: {
     backgroundColor: "rgba(255,255,255,1)",

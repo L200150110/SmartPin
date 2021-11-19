@@ -50,6 +50,15 @@ const AdminIndexScreen = ({ navigation }) => {
     }
   };
 
+  const logoutButton = async () => {
+    try {
+      await AsyncStorage.removeItem("Data_User");
+      navigation.navigate("Login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     AsyncStorage.getItem("Data_User").then(value => {
       if (value != null) {
@@ -66,6 +75,27 @@ const AdminIndexScreen = ({ navigation }) => {
           source={require("./../../assets/img/logo3-02.png")}
           style={styles.logo}
         />
+        <TouchableOpacity
+          style={{
+            right: 30,
+            top: 50,
+            position: "absolute",
+            backgroundColor: "white",
+            borderRadius: 35,
+            width: 35,
+            height: 35,
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+          onPress={() => {
+            logoutButton();
+          }}
+        >
+          <Image
+            source={require("./../../assets/img/logout_icon.png")}
+            style={{ height: 25, width: 25 }}
+          />
+        </TouchableOpacity>
       </LinearGradient>
       <View
         style={[
@@ -122,10 +152,11 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   logo: {
-    marginTop: 50,
-    marginLeft: 20,
+    top: 55,
+    left: 20,
     height: 25,
-    width: 150
+    width: 150,
+    position: "absolute"
   },
   inputContainer: {
     backgroundColor: "rgba(255,255,255,1)",
