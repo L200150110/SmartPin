@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import HomeScreen from "./../screens/HomeScreen";
 import LoginScreen from "./../screens/login/LoginScreen";
 import AdminIndexScreen from "./../screens/admin/AdminIndexScreen";
 import AdminUserListScreen from "./../screens/admin/AdminUserListScreen";
@@ -12,6 +11,8 @@ import AdminLogScreen1 from "./../screens/admin/AdminLogScreen1";
 import AdminLogScreen2 from "./../screens/admin/AdminLogScreen2";
 import AdminRegisterScreen from "./../screens/admin/AdminRegisterScreen";
 import UserIndexScreen from "./../screens/user/UserIndexScreen";
+import UserLogScreen1 from "./../screens/user/UserLogScreen1";
+import UserLogScreen2 from "./../screens/user/UserLogScreen2";
 
 const Stack = createStackNavigator();
 
@@ -22,11 +23,11 @@ const AppStack = () => {
 
   useEffect(() => {
     AsyncStorage.getItem("Data_User").then(value => {
+      setDataUser(JSON.parse(value));
       if (value == null) {
         setIsLogin(false);
       } else {
         setIsLogin(true);
-        setDataUser(JSON.parse(value));
         // console.log(dataUser["no_hp"]);
       }
     });
@@ -35,11 +36,12 @@ const AppStack = () => {
   if (isLogin === null) {
     return null;
   } else if (isLogin == true) {
-    // if (dataUser["nama"] == "admin") {
-    routeName = "Admin Home";
-    // } else {
-    //   routeName = "User Home";
-    // }
+    if (dataUser["nama"] == "admin") {
+      routeName = "Admin Home";
+    } else {
+      routeName = "User Home";
+      // console.log(dataUser["nama"]);
+    }
   } else {
     routeName = "Login";
   }
@@ -53,6 +55,7 @@ const AppStack = () => {
       />
       <Stack.Screen
         name="Admin Home"
+        // component={AdminIndexScreen}
         component={AdminIndexScreen}
         options={{ header: () => null }}
       />
@@ -84,6 +87,16 @@ const AppStack = () => {
       <Stack.Screen
         name="User Home"
         component={UserIndexScreen}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="User Log 1"
+        component={UserLogScreen1}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="User Log 2"
+        component={UserLogScreen2}
         options={{ header: () => null }}
       />
     </Stack.Navigator>

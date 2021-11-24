@@ -21,14 +21,6 @@ export const AuthProvider = ({ children }) => {
             console.log(error);
           }
         },
-        // login: async (email, password) => {
-        //   try {
-        //     // Keyboard.dismiss();
-        //     await auth().signInWithEmailAndPassword(email, password);
-        //   } catch (error) {
-        //     console.log(error);
-        //   }
-        // },
         register: async (email, password) => {
           try {
             // Keyboard.dismiss();

@@ -12,8 +12,61 @@ import {
 import FormButton from "./../../components/FormButton";
 import { AuthContext } from "./../../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
+import { database } from "./../../components/database";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const UserIndexScreen = () => {
+const UserIndexScreen = ({ navigation }) => {
+  const [dataUser, setDataUser] = useState(null);
+  const [terbuka, setTerbuka] = useState(false);
+
+  const bukaPintu = async () => {
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    var jam =
+      date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    date = date.getDate() + "-" + month + "-" + date.getFullYear();
+    if (terbuka) {
+      setTerbuka(false);
+      await database
+        .ref("/pintu/")
+        .set({
+          pintu: false
+        })
+        .then(() => console.log("pintu tertutup"));
+    } else {
+      setTerbuka(true);
+      await database
+        .ref("/log/" + dataUser["no_hp"] + "/" + date + "/" + jam)
+        .set({
+          jam: jam
+        })
+        .then(() => console.log("Data set."));
+      await database
+        .ref("/pintu/")
+        .set({
+          pintu: true
+        })
+        .then(() => console.log("pintu terbuka"));
+    }
+  };
+
+  const logoutButton = async () => {
+    try {
+      await AsyncStorage.removeItem("Data_User");
+      navigation.navigate("Login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    AsyncStorage.getItem("Data_User").then(value => {
+      if (value != null) {
+        setDataUser(JSON.parse(value));
+      }
+    });
+  }, []);
+
   return (
     <View>
       <StatusBar translucent backgroundColor="transparent" />
@@ -22,6 +75,27 @@ const UserIndexScreen = () => {
           source={require("./../../assets/img/logo3-02.png")}
           style={styles.logo}
         />
+        <TouchableOpacity
+          style={{
+            right: 30,
+            top: 50,
+            position: "absolute",
+            backgroundColor: "white",
+            borderRadius: 35,
+            width: 35,
+            height: 35,
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+          onPress={() => {
+            logoutButton();
+          }}
+        >
+          <Image
+            source={require("./../../assets/img/logout_icon.png")}
+            style={{ height: 25, width: 25 }}
+          />
+        </TouchableOpacity>
       </LinearGradient>
       <View
         style={[
@@ -34,12 +108,34 @@ const UserIndexScreen = () => {
         ]}
       >
         <View style={[styles.inputContainer, styles.centerAlign]}>
-          <Image source={require("./../../assets/img/pintu-01.png")} />
+          {!terbuka
+            ? <Image source={require("./../../assets/img/pintu-01.png")} />
+            : <Image source={require("./../../assets/img/pintu2-01.png")} />}
+
           <View style={{ width: "100%", padding: 20 }}>
-            <FormButton buttonTitle="Buka" />
+            <FormButton
+              buttonTitle={terbuka ? "Tutup" : "Buka"}
+              onPress={() => {
+                bukaPintu();
+              }}
+            />
           </View>
           <View style={{ flexDirection: "row", paddingHorizontal: 20 }}>
-            <FormButton buttonTitle="Log" />
+            <View style={{ width: "100%" }}>
+              <FormButton
+                buttonTitle="Log"
+                onPress={() =>
+                  navigation.navigate("User Log 1", {
+                    dataUser: dataUser
+                  })}
+              />
+            </View>
+            {/* <View style={{ width: "46%" }}>
+              <FormButton
+                buttonTitle="User"
+                onPress={() => navigation.navigate("Admin User List")}
+              />
+            </View> */}
           </View>
         </View>
       </View>
@@ -68,10 +164,10 @@ const styles = StyleSheet.create({
   inputContainer: {
     backgroundColor: "rgba(255,255,255,1)",
     padding: 20,
-    marginTop: -180,
+    marginTop: -240,
     borderRadius: 20,
     width: windowWidth / 1.2,
-    height: windowHeight / 1.1,
+    height: windowHeight / 1.2,
     elevation: 5
   },
   errorMessage: {

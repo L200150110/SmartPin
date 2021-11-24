@@ -60,7 +60,12 @@ const LoginScreen = ({ navigation }) => {
             try {
               const jsonValue = JSON.stringify(snapshot);
               AsyncStorage.setItem("Data_User", jsonValue);
-              navigation.navigate("Admin Home");
+              if (snapshot.val()["nama"] == "admin") {
+                navigation.navigate("Admin Home");
+              } else {
+                navigation.navigate("User Home");
+                // console.log(snapshot.val()["nama"]);
+              }
             } catch (e) {
               console.log(e);
             }
