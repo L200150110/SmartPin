@@ -44,7 +44,7 @@ const UserLogScreen2 = ({ route, navigation }) => {
     getUserData();
     getUserLog();
 
-    console.log(no_hp, tgl);
+    // console.log(no_hp, tgl);
   }, []);
 
   const SPACING = 20;
