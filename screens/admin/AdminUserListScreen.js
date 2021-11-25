@@ -39,12 +39,7 @@ const AdminUserListScreen = ({ navigation }) => {
 
   useEffect(
     () => {
-      // let isMounted = true;
-      // isMounted ? getData() : null;
-      // return () => {
-      //   isMounted = false;
-      // };
-      isFocused ? getData() : null;
+      getData();
     },
     [isFocused]
   );

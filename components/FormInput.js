@@ -36,13 +36,13 @@ const FormInput = ({ labelValue, placeholderText, iconType, ...rest }) => {
       {isPass
         ? isShowPass
           ? <TouchableOpacity
-              style={styles.iconStyle}
+              style={styles.iconStyle2}
               onPress={() => showPass()}
             >
               <Ionicons name="eye-off" size={25} color="#666" />
             </TouchableOpacity>
           : <TouchableOpacity
-              style={styles.iconStyle}
+              style={styles.iconStyle2}
               onPress={() => showPass()}
             >
               <Ionicons name="eye" size={25} color="#666" />
@@ -73,6 +73,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRightColor: "#ccc",
     borderRightWidth: 1,
+    width: 50
+  },
+  iconStyle2: {
+    padding: 10,
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRightColor: "#ccc",
+    // borderRightWidth: 1,
     width: 50
   },
   input: {

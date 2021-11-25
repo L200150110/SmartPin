@@ -8,7 +8,8 @@ import {
   Image,
   StyleSheet,
   StatusBar,
-  Keyboard
+  Keyboard,
+  Linking
 } from "react-native";
 import FormInput from "./../../components/FormInput";
 import FormButton from "./../../components/FormButton";
@@ -77,6 +78,10 @@ const LoginScreen = ({ navigation }) => {
     } catch (e) {}
   };
 
+  const lupaPassword = () => {
+    Linking.openURL("https://wa.me/6285600041621");
+  };
+
   return (
     <View>
       <StatusBar translucent backgroundColor="transparent" />
@@ -110,6 +115,7 @@ const LoginScreen = ({ navigation }) => {
             caretHidden={false}
             autoCapitalize="none"
             autoCorrect={false}
+            keyboardType="numeric"
             onEndEditing={e => handleValidUser(e.nativeEvent.text)}
             onFocus={() => setData({ ...data, isValidUser: true })}
           />
@@ -150,7 +156,9 @@ const LoginScreen = ({ navigation }) => {
 
           <TouchableOpacity
             style={styles.forgotButton}
-            onPress={() => navigation.navigate("Signup")}
+            onPress={() => {
+              lupaPassword();
+            }}
           >
             <Text style={styles.navButtonText}>Lupa Password?</Text>
           </TouchableOpacity>
@@ -185,7 +193,7 @@ const styles = StyleSheet.create({
     marginTop: -windowHeight / 2.1,
     borderRadius: 20,
     width: windowWidth / 1.2,
-    height: windowHeight / 2.1,
+    height: windowHeight / 2.3,
     elevation: 5
   },
   errorMessage: {

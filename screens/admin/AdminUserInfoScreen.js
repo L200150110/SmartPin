@@ -9,7 +9,8 @@ import {
   StyleSheet,
   StatusBar,
   Alert,
-  Keyboard
+  Keyboard,
+  Linking
 } from "react-native";
 import FormInput from "./../../components/FormInput";
 import FormButton from "./../../components/FormButton";
@@ -118,6 +119,12 @@ const AdminUserInfoScreen = ({ route, navigation }) => {
     navigation.navigate("Admin User List");
   };
 
+  const hubungi = () => {
+    // var no = "https://wa.me/62" + no_hp.slice(1);
+    Linking.openURL("https://wa.me/62" + no_hp.slice(1));
+    // console.log(no);
+  };
+
   useEffect(() => {
     getUserData();
   }, []);
@@ -182,12 +189,22 @@ const AdminUserInfoScreen = ({ route, navigation }) => {
             iconType="lock"
             editable={isEdited}
           />
-
-          <FormButton
-            buttonTitle={isEdited ? "Simpan" : "Edit"}
-            onPress={() => (isEdited ? updateUserData() : setIsEdited(true))}
-            blurOnpress={true}
-          />
+          <View style={{ flexDirection: "row" }}>
+            <FormButton
+              buttonTitle={isEdited ? "Simpan" : "Edit"}
+              onPress={() => (isEdited ? updateUserData() : setIsEdited(true))}
+              blurOnpress={true}
+              style={{ width: windowWidth / 3 + 7, marginHorizontal: 5 }}
+            />
+            <FormButton
+              buttonTitle="Hubungi"
+              onPress={() => {
+                hubungi();
+              }}
+              blurOnpress={true}
+              style={{ width: windowWidth / 3 + 7, marginHorizontal: 5 }}
+            />
+          </View>
 
           <FormButton
             buttonTitle="Hapus User"

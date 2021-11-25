@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// import all screens
 import LoginScreen from "./../screens/login/LoginScreen";
 import AdminIndexScreen from "./../screens/admin/AdminIndexScreen";
 import AdminUserListScreen from "./../screens/admin/AdminUserListScreen";
@@ -28,7 +29,6 @@ const AppStack = () => {
         setIsLogin(false);
       } else {
         setIsLogin(true);
-        // console.log(dataUser["no_hp"]);
       }
     });
   }, []);
@@ -40,7 +40,6 @@ const AppStack = () => {
       routeName = "Admin Home";
     } else {
       routeName = "User Home";
-      // console.log(dataUser["nama"]);
     }
   } else {
     routeName = "Login";
@@ -55,7 +54,6 @@ const AppStack = () => {
       />
       <Stack.Screen
         name="Admin Home"
-        // component={AdminIndexScreen}
         component={AdminIndexScreen}
         options={{ header: () => null }}
       />
