@@ -112,6 +112,12 @@ const AdminUserInfoScreen = ({ route, navigation }) => {
       : sendFirebase() && setIsEdited(false);
   };
 
+  const hapusData = async () => {
+    await database.ref("/users/" + no_hp).remove();
+    await database.ref("/log/" + no_hp).remove();
+    navigation.navigate("Admin User List");
+  };
+
   useEffect(() => {
     getUserData();
   }, []);
@@ -182,6 +188,15 @@ const AdminUserInfoScreen = ({ route, navigation }) => {
             onPress={() => (isEdited ? updateUserData() : setIsEdited(true))}
             blurOnpress={true}
           />
+
+          <FormButton
+            buttonTitle="Hapus User"
+            onPress={() => {
+              hapusData();
+            }}
+            blurOnpress={true}
+            style={{ marginTop: 10, width: "100%" }}
+          />
         </View>
         <Image
           source={require("./../../assets/img/ums.png")}
@@ -213,7 +228,7 @@ const styles = StyleSheet.create({
     marginTop: -windowHeight / 2.1,
     borderRadius: 20,
     width: windowWidth / 1.2,
-    height: windowHeight / 2.1,
+    height: windowHeight / 1.9,
     elevation: 5
   },
   errorMessage: {
