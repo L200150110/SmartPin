@@ -15,9 +15,11 @@ import { AuthContext } from "./../../navigation/AuthProvider";
 import * as Animatable from "react-native-animatable";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { database } from "./../../components/database";
+import { useIsFocused } from "@react-navigation/native";
 
 const AdminUserListScreen = ({ navigation }) => {
   const [usersData, setUsersData] = useState([]);
+  const isFocused = useIsFocused();
 
   const getData = async () => {
     var data = [];
@@ -35,13 +37,17 @@ const AdminUserListScreen = ({ navigation }) => {
     });
   };
 
-  useEffect(() => {
-    let isMounted = true;
-    isMounted ? getData() : null;
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  useEffect(
+    () => {
+      // let isMounted = true;
+      // isMounted ? getData() : null;
+      // return () => {
+      //   isMounted = false;
+      // };
+      isFocused ? getData() : null;
+    },
+    [isFocused]
+  );
 
   const SPACING = 20;
   const AVATAR_SIZE = 70;
