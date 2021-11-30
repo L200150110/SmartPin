@@ -65,6 +65,10 @@ const AdminIndexScreen = ({ navigation }) => {
         setDataUser(JSON.parse(value));
       }
     });
+    database
+      .ref("/pintu/pintu")
+      .once("value")
+      .then(snapshot => setTerbuka(snapshot.val()));
   }, []);
 
   return (
