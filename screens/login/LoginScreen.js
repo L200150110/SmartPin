@@ -149,7 +149,6 @@ const LoginScreen = ({ navigation }) => {
 
           <FormButton
             buttonTitle="Masuk"
-            // onPress={() => login(email, password)}
             onPress={() => loginButton()}
             blurOnpress={true}
           />

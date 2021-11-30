@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "375911826885",
-    "project_id": "smartpin-f0485",
-    "storage_bucket": "smartpin-f0485.appspot.com"
+    "project_number": "615485667730",
+    "firebase_url": "https://tugas-akhir-b5275-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "tugas-akhir-b5275",
+    "storage_bucket": "tugas-akhir-b5275.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:375911826885:android:580dd64ecc3601016737ac",
+        "mobilesdk_app_id": "1:615485667730:android:a3177217c491b18022e94b",
         "android_client_info": {
           "package_name": "com.smartpin"
         }
       },
       "oauth_client": [
         {
-          "client_id": "375911826885-p7eaacfv25q66d6vj980c1arauivm7r0.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.smartpin",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
-          }
-        },
-        {
-          "client_id": "375911826885-uk9c2qrv0u41ok3t870e4ohoooul7m6s.apps.googleusercontent.com",
+          "client_id": "615485667730-o2igmvmdd8bki4s4rdsjflobeh23d38g.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCRAZ98y55a1Iqmdnc12T0K4_8BzjhAi8U"
+          "current_key": "AIzaSyAUbZiCTs1vgU84-5FtUSpaUvOK4qqxN4M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "375911826885-uk9c2qrv0u41ok3t870e4ohoooul7m6s.apps.googleusercontent.com",
+              "client_id": "615485667730-o2igmvmdd8bki4s4rdsjflobeh23d38g.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

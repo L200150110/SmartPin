@@ -68,32 +68,52 @@ const AdminUserInfoScreen = ({ route, navigation }) => {
   const sendFirebase = async () => {
     if (userData["no_hp"] != oldNo) {
       // baca firebase log
-      var data = null;
-      await database.ref("/log/" + oldNo).once("value").then(snapshot => {
-        data = snapshot.val();
-      });
+      try {
+        var data = null;
+        await database.ref("/log/" + oldNo).once("value").then(snapshot => {
+          data = snapshot.val();
+        });
 
-      // hapus data lama
-      await database.ref("/users/" + oldNo).remove();
-      await database.ref("/log/" + oldNo).remove();
+        // hapus data lama
+        await database.ref("/users/" + oldNo).remove();
 
-      // update firebase log berdasar data
-      await database.ref("/log/" + userData["no_hp"]).update(data).then(() => {
-        console.log("update data success");
-      });
+        // update firebase users berdasar userData
+        await database
+          .ref("/users/" + userData["no_hp"])
+          .update({
+            nama: userData["nama"],
+            no_hp: userData["no_hp"],
+            no_kamar: userData["no_kamar"],
+            password: userData["password"]
+          })
+          .then(() => console.log("Data updated."));
 
+        // hapus data lama
+        await database.ref("/log/" + oldNo).remove();
+
+        // update firebase log berdasar data
+        await database
+          .ref("/log/" + userData["no_hp"])
+          .update(data)
+          .then(() => {
+            console.log("update data success");
+          });
+      } catch (err) {
+        console.log(err);
+      }
       // rubah nomor baru
       setOldNo(userData["no_hp"]);
+    } else {
+      await database
+        .ref("/users/" + userData["no_hp"])
+        .update({
+          nama: userData["nama"],
+          no_hp: userData["no_hp"],
+          no_kamar: userData["no_kamar"],
+          password: userData["password"]
+        })
+        .then(() => console.log("Data updated."));
     }
-    await database
-      .ref("/users/" + userData["no_hp"])
-      .update({
-        nama: userData["nama"],
-        no_hp: userData["no_hp"],
-        no_kamar: userData["no_kamar"],
-        password: userData["password"]
-      })
-      .then(() => console.log("Data updated."));
     console.log("masuk fungsi sendFirebase()");
   };
 
