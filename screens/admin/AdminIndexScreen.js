@@ -23,8 +23,25 @@ const AdminIndexScreen = ({ navigation }) => {
     var date = new Date();
     var month = date.getMonth() + 1;
     var jam =
-      date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    date = date.getDate() + "-" + month + "-" + date.getFullYear();
+      (date.getHours().toString().length == 1
+        ? "0" + date.getHours()
+        : date.getHours()) +
+      ":" +
+      (date.getMinutes().toString().length == 1
+        ? "0" + date.getMinutes()
+        : date.getMinutes()) +
+      ":" +
+      (date.getSeconds().toString().length == 1
+        ? "0" + date.getSeconds()
+        : date.getSeconds());
+    date =
+      (date.getDate().toString().length == 1
+        ? "0" + date.getDate()
+        : date.getDate()) +
+      "-" +
+      (month.toString().length == 1 ? "0" + month : month) +
+      "-" +
+      date.getFullYear();
     if (terbuka) {
       setTerbuka(false);
       await database
